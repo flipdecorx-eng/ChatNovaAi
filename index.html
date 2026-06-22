@@ -1,6 +1,10 @@
-<!DOCTYPE html><html>
+
+<!DOCTYPE html>
+<html>
 <head>
-<title>ChatNova AI</title><style>
+<title>ChatNova AI</title>
+
+<style>
 *{
 margin:0;
 padding:0;
@@ -16,22 +20,24 @@ flex-direction:column;
 }
 
 .topbar{
-padding:15px;
-font-size:28px;
+display:flex;
+justify-content:space-between;
+padding:25px;
+font-size:40px;
 }
 
 .logo{
 text-align:center;
-margin-top:30px;
-font-size:40px;
+margin-top:60px;
+font-size:70px;
 font-weight:bold;
 color:black;
 }
 
 .welcome{
 text-align:center;
-margin-top:15px;
-font-size:22px;
+margin-top:25px;
+font-size:35px;
 color:#666;
 }
 
@@ -40,46 +46,66 @@ flex:1;
 }
 
 .input-area{
-padding:15px;
+padding:20px;
 display:flex;
-gap:10px;
-border-top:1px solid #ddd;
+gap:15px;
 background:white;
+border-top:1px solid #ddd;
 }
 
 input{
 flex:1;
-padding:16px;
-font-size:18px;
+padding:25px;
+font-size:28px;
 border:1px solid #ddd;
-border-radius:25px;
+border-radius:35px;
 }
 
 button{
-padding:16px 22px;
+padding:25px 35px;
 background:#0b93f6;
 color:white;
 border:none;
-border-radius:25px;
-font-size:18px;
+border-radius:35px;
+font-size:24px;
 }
 
 .footer{
 text-align:center;
-padding:10px;
+padding:15px;
+font-size:20px;
 color:#777;
-font-size:14px;
 }
-</style></head><body><div class="topbar">☰</div><div class="logo">
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">
+<div>☰</div>
+<div>⚙️</div>
+</div>
+
+<div class="logo">
 🤖 ChatNova AI
-</div><div class="welcome">
+</div>
+
+<div class="welcome">
 Hello! I am ChatNova AI.<br>
 How can I help you today?
-</div><div class="chat-area"></div><div class="input-area">
-<input type="text" placeholder="Message ChatNova AI...">
-<button>Send</button>
-</div><div class="footer">
-Created by Ayush 🚀
-</div></body>
-</html>
+</div>
 
+<div class="chat-area"></div>
+
+<div class="input-area">
+<input type="text" placeholder="Ask ChatNova AI...">
+<button>Send</button>
+</div>
+
+<div class="footer">
+Created by Ayush 🚀
+</div>
+
+</body>
+</html>
