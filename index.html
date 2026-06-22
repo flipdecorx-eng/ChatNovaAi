@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,63 +14,73 @@ flex-direction:column;
 }
 
 .header{
-padding:20px;
 text-align:center;
-font-size:40px;
+font-size:70px;
 font-weight:bold;
+padding:30px;
+}
+
+.welcome{
+text-align:center;
+font-size:35px;
+color:gray;
+margin-bottom:20px;
 }
 
 #chat{
 flex:1;
-padding:15px;
+padding:20px;
 overflow-y:auto;
 }
 
 .bot{
 background:#f1f1f1;
-padding:15px;
-border-radius:15px;
-margin:10px;
-max-width:80%;
+padding:25px;
+border-radius:20px;
+margin:15px;
+font-size:28px;
+max-width:85%;
 }
 
 .user{
-background:#0b93f6;
+background:#2196F3;
 color:white;
-padding:15px;
-border-radius:15px;
-margin:10px;
+padding:25px;
+border-radius:20px;
+margin:15px;
+font-size:28px;
+max-width:85%;
 margin-left:auto;
-max-width:80%;
 }
 
 .input-area{
 display:flex;
-padding:15px;
-gap:10px;
+padding:20px;
+gap:15px;
 border-top:1px solid #ddd;
 }
 
 input{
 flex:1;
-padding:15px;
-font-size:20px;
-border-radius:25px;
+padding:25px;
+font-size:30px;
+border-radius:40px;
 border:1px solid #ccc;
 }
 
 button{
-padding:15px 25px;
-font-size:20px;
-background:#0b93f6;
+padding:25px 40px;
+font-size:30px;
+background:#2196F3;
 color:white;
 border:none;
-border-radius:25px;
+border-radius:40px;
 }
 
 .footer{
 text-align:center;
-padding:10px;
+padding:15px;
+font-size:22px;
 color:gray;
 }
 </style>
@@ -81,6 +90,11 @@ color:gray;
 
 <div class="header">
 🤖 ChatNova AI
+</div>
+
+<div class="welcome">
+Hello! I am ChatNova AI.<br>
+How can I help you today?
 </div>
 
 <div id="chat">
@@ -101,7 +115,6 @@ Created by Ayush 🚀
 <script>
 function sendMessage(){
 let text=document.getElementById("msg").value;
-
 if(text=="") return;
 
 let chat=document.getElementById("chat");
