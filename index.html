@@ -94,15 +94,33 @@ Hello! I am ChatNova AI. How can I help you today?
 <button onclick="sendMessage()">Send</button>
 </div><div class="footer">
 Created by Ayush 🚀
-</div><script>
+</div
 function sendMessage(){
+
 let text=document.getElementById("msg").value;
+
 if(text=="") return;
 
 let chat=document.getElementById("chat");
+
 chat.innerHTML += '<div class="user">'+text+'</div>';
 
-document.getElementById("msg").value="";
+let reply="I am ChatNova AI 🤖. I cannot answer that yet.";
+
+if(text.toLowerCase()=="hi"){
+reply="Hi Ayush! 👋";
 }
-</script></body>
-</html>
+else if(text.toLowerCase()=="hello"){
+reply="Hello Ayush! 😊";
+}
+else if(text.toLowerCase()=="how are you"){
+reply="I am fine! How are you? 😄";
+}
+
+chat.innerHTML += '<div class="bot">'+reply+'</div>';
+
+document.getElementById("msg").value="";
+
+chat.scrollTop = chat.scrollHeight;
+
+}
