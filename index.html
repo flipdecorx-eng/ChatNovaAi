@@ -1,73 +1,115 @@
-
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
-<title>ChatNova AI</title><style>
+<title>ChatNova AI</title>
+
+<style>
 body{
+margin:0;
+font-family:Arial,sans-serif;
 background:#202123;
 color:white;
-font-family:Arial,sans-serif;
-margin:0;
+display:flex;
+height:100vh;
+}
+
+.sidebar{
+width:250px;
+background:#171717;
+padding:20px;
+}
+
+.newchat{
+background:#343541;
+padding:15px;
+border-radius:10px;
+text-align:center;
+font-size:20px;
+margin-bottom:20px;
+}
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
 }
 
 .header{
 background:#343541;
-padding:30px;
+padding:20px;
 text-align:center;
-font-size:50px;
+font-size:35px;
 font-weight:bold;
 }
 
-.chat{
-max-width:1000px;
-margin:auto;
+.chat-area{
+flex:1;
 padding:20px;
+overflow:auto;
 }
 
-.message{
+.ai{
 background:#444654;
-padding:25px;
-border-radius:15px;
-font-size:28px;
-margin-top:20px;
+padding:20px;
+border-radius:10px;
+font-size:22px;
+max-width:800px;
 }
 
 .input-area{
-text-align:center;
+background:#343541;
 padding:20px;
+display:flex;
+gap:10px;
 }
 
 input{
-width:80%;
-padding:20px;
-font-size:24px;
-border-radius:12px;
+flex:1;
+padding:15px;
+font-size:20px;
 border:none;
+border-radius:10px;
 }
 
 button{
-padding:20px 30px;
-font-size:24px;
-border-radius:12px;
+padding:15px 25px;
+font-size:20px;
 border:none;
+border-radius:10px;
 cursor:pointer;
 }
+</style>
 
-.footer{
-text-align:center;
-padding:30px;
-font-size:24px;
-}
-</style></head><body><div class="header">
+</head>
+
+<body>
+
+<div class="sidebar">
+<div class="newchat">➕ New Chat</div>
+<p>Chat 1</p>
+<p>Chat 2</p>
+<p>Chat 3</p>
+</div>
+
+<div class="main">
+
+<div class="header">
 🤖 ChatNova AI
-</div><div class="chat">
-<div class="message">
+</div>
+
+<div class="chat-area">
+<div class="ai">
 Hello! I am ChatNova AI. How can I help you today?
 </div>
-</div><div class="input-area">
-<input type="text" placeholder="Type your message...">
+</div>
+
+<div class="input-area">
+<input type="text" placeholder="Message ChatNova AI...">
 <button>Send</button>
-</div><div class="footer">
-Created by Ayush 🚀
-</div></body>
+</div>
+
+</div>
+
+</body>
 </html>
 
