@@ -1,90 +1,59 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChatNova AI</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatNova AI</title><style>
 body{
-margin:0;
 font-family:Arial,sans-serif;
 background:#f5f5f5;
+margin:0;
+text-align:center;
 }
 
 .header{
-text-align:center;
-padding:30px 20px;
 background:white;
-}
-
-.logo{
-font-size:60px;
-}
-
-.title{
-font-size:48px;
+padding:20px;
+font-size:35px;
 font-weight:bold;
-}
-
-.subtitle{
-color:#666;
-margin-top:10px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
 .card{
 background:white;
 margin:20px;
-padding:40px 20px;
-border-radius:30px;
-text-align:center;
-box-shadow:0 4px 15px rgba(0,0,0,.08);
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.card h2{
-font-size:42px;
-margin:0;
+input{
+width:70%;
+padding:12px;
+font-size:16px;
 }
 
-.card p{
-font-size:26px;
-color:#666;
+button{
+padding:12px 20px;
+font-size:16px;
 }
-
-.menu-card{
-background:white;
-margin:20px;
-padding:30px;
-border-radius:25px;
-font-size:34px;
-text-align:center;
-box-shadow:0 4px 15px rgba(0,0,0,.08);
-cursor:pointer;
-}
-</style>
-</head>
-
-<body>
-
-<div class="header">
-<div class="logo">⚡</div>
-<div class="title">ChatNova AI</div>
-<div class="subtitle">AI Assistant for Learning, Coding & Homework</div>
-</div>
-
-<div class="card">
+</style></head><body><div class="header">
+⚡ ChatNova AI
+</div><div class="card">
 <h2>Welcome to ChatNova AI</h2>
 <p>Learn • Create • Explore</p>
-</div>
-
-<div class="menu-card">🤖 AI Chat</div>
-
-<div class="menu-card">📚 Library</div>
-
-<div class="menu-card">📁 Projects</div>
-
-<div class="menu-card">📅 Schedule</div>
-
-<div class="menu-card">💻 Learn Coding</div>
-
-</body>
+</div><div class="card">
+<h3>💬 AI Chat</h3>
+<input id="msg" placeholder="Type a message">
+<button onclick="sendMessage()">Send</button>
+<p id="reply"></p>
+</div><div class="card">📚 Library</div>
+<div class="card">📁 Projects</div>
+<div class="card">📅 Schedule</div>
+<div class="card">💻 Learn Coding</div>
+<div class="card">📷 Upload Image (Coming Soon)</div><script>
+function sendMessage(){
+let text=document.getElementById("msg").value;
+document.getElementById("reply").innerHTML=
+"🤖 ChatNova AI: You said - " + text;
+}
+</script></body>
 </html>
