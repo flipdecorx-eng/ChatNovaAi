@@ -1,56 +1,115 @@
-<!DOCTYPE html><html>
+  <!DOCTYPE html>
+<html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChatNova AI</title><style>
+<title>ChatNova AI</title>
+
+<style>
 body{
-font-family:Arial,sans-serif;
-background:#f5f5f5;
-margin:0;
-text-align:center;
+  background:#f5f7fb;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  margin:0;
 }
 
 .header{
-background:white;
-padding:20px;
-font-size:35px;
-font-weight:bold;
+  background:white;
+  padding:20px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo{
+  width:120px;
+}
+
+h1{
+  margin:10px 0;
+  color:#111827;
+}
+
+.subtitle{
+  color:#2563eb;
+  font-weight:bold;
+}
+
+.tagline{
+  color:#6b7280;
 }
 
 .card{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:15px;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  background:white;
+  margin:20px;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
 input{
-width:70%;
-padding:10px;
+  width:80%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
 }
 
 button{
-padding:10px 20px;
+  margin-top:10px;
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  color:white;
+  background:linear-gradient(45deg,#3b82f6,#8b5cf6);
 }
-</style></head><body><div class="header">
-⚡ ChatNova AI
-</div><div class="card">
-<h2>Welcome to ChatNova AI</h2>
-<p>Learn • Create • Explore</p>
-</div><div class="card">
-<h3>💬 AI Chat</h3>
-<input id="msg" placeholder="Type a message">
-<button onclick="sendMessage()">Send</button>
-<p id="reply"></p>
-</div><div class="card">📚 Library</div>
-<div class="card">📁 Projects</div>
-<div class="card">📅 Schedule</div>
-<div class="card">💻 Learn Coding</div>
-<div class="card">📷 Upload Image</div><script>
+
+#reply{
+  margin-top:15px;
+  font-size:18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <img src="logo.png" class="logo">
+  <h1>ChatNova AI</h1>
+  <p class="subtitle">AI Assistant for Learning, Coding & Homework</p>
+  <p class="tagline">Learn • Create • Explore</p>
+</div>
+
+<div class="card">
+  <h2>🤖 AI Chat</h2>
+
+  <input id="msg" placeholder="Ask ChatNova AI...">
+
+  <br>
+
+  <button onclick="sendMessage()">Send</button>
+
+  <p id="reply"></p>
+</div>
+
+<script>
 function sendMessage(){
-let text=document.getElementById("msg").value;
-document.getElementById("reply").innerHTML =
-"🤖 ChatNova AI: " + text;
+
+let text=document.getElementById("msg").value.toLowerCase();
+let reply="🤖 Sorry, I am still learning.";
+
+if(text=="hi"){
+reply="🤖 Hello Ayush! 👋";
 }
-</script></body>
+else if(text=="what is ai"){
+reply="🤖 AI means Artificial Intelligence.";
+}
+else if(text=="what is 2 + 2"){
+reply="🤖 2 + 2 = 4";
+}
+else if(text=="who are you"){
+reply="🤖 I am ChatNova AI.";
+}
+
+document.getElementById("reply").innerHTML=reply;
+}
+</script>
+
+</body>
 </html>
