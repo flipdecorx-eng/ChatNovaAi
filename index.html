@@ -1,8 +1,12 @@
-<style>
+<!DOCTYPE html><html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
 body{
 margin:0;
-background:white;
+height:100vh;
+background:#f5f5f5;
 font-family:Arial,sans-serif;
+overflow:hidden;
 }
 
 .top-bar{
@@ -12,44 +16,47 @@ padding:25px;
 }
 
 .circle-btn{
-width:55px;
-height:55px;
+width:60px;
+height:60px;
 border:none;
 border-radius:50%;
 background:white;
-box-shadow:0 4px 15px rgba(0,0,0,.1);
-font-size:24px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+font-size:28px;
+cursor:pointer;
 }
 
 .main-area{
-height:70vh;
+height:80vh;
 }
 
 .chat-bar{
 position:fixed;
-bottom:20px;
-left:20px;
-right:20px;
+bottom:25px;
+left:25px;
+right:25px;
+height:65px;
 background:white;
-border-radius:40px;
-padding:10px;
+border-radius:35px;
+padding:8px 15px;
 display:flex;
 align-items:center;
-gap:10px;
-box-shadow:0 8px 25px rgba(0,0,0,.1);
+gap:12px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
 .chat-bar input{
 flex:1;
 border:none;
 outline:none;
-font-size:18px;
+background:transparent;
+font-size:20px;
 }
 
 .icon-btn{
 border:none;
 background:none;
-font-size:28px;
+font-size:30px;
 cursor:pointer;
 }
 
@@ -61,29 +68,32 @@ border-radius:50%;
 background:#7c3aed;
 color:white;
 font-size:22px;
+cursor:pointer;
 }
 
 #plusMenu{
 display:none;
 position:fixed;
-bottom:90px;
+bottom:100px;
 left:25px;
 background:white;
-padding:10px;
+padding:12px;
 border-radius:20px;
-box-shadow:0 4px 15px rgba(0,0,0,.1);
+box-shadow:0 4px 20px rgba(0,0,0,.15);
 }
 
 #plusMenu button{
 display:block;
-width:100%;
-margin:5px 0;
-padding:10px;
+width:180px;
+padding:12px;
+margin:6px 0;
 border:none;
 background:#f3f4f6;
 border-radius:10px;
+font-size:16px;
+cursor:pointer;
 }
-</style><div class="top-bar">
+</style></head><body><div class="top-bar">
 <button class="circle-btn">☰</button>
 <button class="circle-btn">💬</button>
 </div><div class="main-area"></div><div id="plusMenu">
@@ -91,14 +101,15 @@ border-radius:10px;
 <button>🖼️ Upload Photo</button>
 <button>📁 Upload File</button>
 <button>🎨 Create Image</button>
-</div><div class="chat-bar">
-<button class="icon-btn" onclick="toggleMenu()">➕</button><input type="text" placeholder="Ask ChatNova AI"><button class="icon-btn">🎤</button>
+</div><div class="chat-bar"><button class="icon-btn" onclick="toggleMenu()">➕</button>
+
+<input type="text" placeholder="Ask ChatNova AI"><button class="icon-btn">🎤</button>
 
 <button class="voice-btn">🎵</button>
 
 </div><script>
 function toggleMenu(){
-let menu=document.getElementById("plusMenu");
+var menu=document.getElementById("plusMenu");
 
 if(menu.style.display==="block"){
 menu.style.display="none";
@@ -106,4 +117,5 @@ menu.style.display="none";
 menu.style.display="block";
 }
 }
-</script>
+</script></body>
+</html>
