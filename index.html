@@ -1,25 +1,18 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ChatNova AI</title><style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
 body{
+margin:0;
 background:#f5f5f5;
+font-family:Arial,sans-serif;
 height:100vh;
-overflow:hidden;
 }
 
 .top-bar{
 display:flex;
 justify-content:space-between;
-padding:25px;
+padding:20px;
 }
 
 .circle-btn{
@@ -29,17 +22,16 @@ border:none;
 border-radius:50%;
 background:white;
 font-size:34px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
-cursor:pointer;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
 }
 
 .main-area{
-height:75vh;
+height:70vh;
 }
 
 .chat-bar{
 position:fixed;
-bottom:25px;
+bottom:20px;
 left:15px;
 right:15px;
 background:white;
@@ -48,7 +40,13 @@ padding:15px;
 display:flex;
 align-items:center;
 gap:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.icon-btn{
+border:none;
+background:none;
+font-size:39px;
 }
 
 .chat-bar input{
@@ -59,22 +57,14 @@ font-size:24px;
 background:transparent;
 }
 
-.icon-btn{
+.voice-btn{
+width:70px;
+height:70px;
 border:none;
-background:none;
-font-size:39px;
-cursor:pointer;
-}
-
-.send-btn{
+border-radius:50%;
 background:#7c3aed;
 color:white;
-border:none;
-padding:15px 25px;
-border-radius:20px;
-font-size:21px;
-font-weight:bold;
-cursor:pointer;
+font-size:30px;
 }
 
 #plusMenu{
@@ -83,9 +73,9 @@ position:fixed;
 bottom:120px;
 left:20px;
 background:white;
-border-radius:15px;
 padding:10px;
-box-shadow:0 4px 15px rgba(0,0,0,0.15);
+border-radius:15px;
+box-shadow:0 4px 15px rgba(0,0,0,.15);
 }
 
 #plusMenu button{
@@ -95,7 +85,6 @@ padding:15px;
 margin:5px 0;
 border:none;
 border-radius:10px;
-cursor:pointer;
 font-size:20px;
 }
 </style></head><body><div class="top-bar">
@@ -106,21 +95,16 @@ font-size:20px;
 <button>🖼️ Upload Photo</button>
 <button>📁 Upload File</button>
 <button>🎨 Create Image</button>
-</div><div class="chat-bar"><button class="icon-btn" onclick="toggleMenu()">➕</button>
+</div><div class="chat-bar">
+<button class="icon-btn" onclick="toggleMenu()">➕</button><input type="text" placeholder="Ask ChatNova AI"><button class="icon-btn">🎤</button>
 
-<input type="text" placeholder="Ask ChatNova AI"><button class="icon-btn">🎤</button>
-
-<button class="send-btn">Send</button>
+<button class="voice-btn">➤</button>
 
 </div><script>
 function toggleMenu(){
-const menu=document.getElementById("plusMenu");
-
-if(menu.style.display==="block"){
-menu.style.display="none";
-}else{
-menu.style.display="block";
-}
+let menu=document.getElementById("plusMenu");
+menu.style.display =
+menu.style.display==="block" ? "none" : "block";
 }
 </script></body>
 </html>
