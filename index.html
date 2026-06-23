@@ -1,11 +1,18 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html><html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-body{
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatNova AI</title><style>
+*{
 margin:0;
-height:100vh;
-background:#f5f5f5;
+padding:0;
+box-sizing:border-box;
 font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+height:100vh;
 overflow:hidden;
 }
 
@@ -16,82 +23,80 @@ padding:25px;
 }
 
 .circle-btn{
-width:60px;
-height:60px;
+width:75px;
+height:75px;
 border:none;
 border-radius:50%;
 background:white;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-font-size:28px;
+font-size:34px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
 cursor:pointer;
 }
 
 .main-area{
-height:80vh;
+height:75vh;
 }
 
 .chat-bar{
 position:fixed;
 bottom:25px;
-left:25px;
-right:25px;
-height:65px;
+left:15px;
+right:15px;
 background:white;
-border-radius:35px;
-padding:8px 15px;
+border-radius:50px;
+padding:15px;
 display:flex;
 align-items:center;
-gap:12px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
+gap:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
 .chat-bar input{
 flex:1;
 border:none;
 outline:none;
+font-size:24px;
 background:transparent;
-font-size:20px;
 }
 
 .icon-btn{
 border:none;
 background:none;
-font-size:30px;
+font-size:40px;
 cursor:pointer;
 }
 
 .voice-btn{
-width:50px;
-height:50px;
+width:70px;
+height:70px;
 border:none;
 border-radius:50%;
 background:#7c3aed;
 color:white;
-font-size:22px;
+font-size:30px;
 cursor:pointer;
 }
 
 #plusMenu{
 display:none;
 position:fixed;
-bottom:100px;
-left:25px;
+bottom:120px;
+left:20px;
 background:white;
-padding:12px;
-border-radius:20px;
-box-shadow:0 4px 20px rgba(0,0,0,.15);
+border-radius:15px;
+padding:10px;
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
 }
 
 #plusMenu button{
 display:block;
-width:180px;
-padding:12px;
-margin:6px 0;
+width:220px;
+padding:15px;
+margin:5px 0;
 border:none;
-background:#f3f4f6;
 border-radius:10px;
-font-size:16px;
 cursor:pointer;
+font-size:20px;
 }
 </style></head><body><div class="top-bar">
 <button class="circle-btn">☰</button>
@@ -101,21 +106,16 @@ cursor:pointer;
 <button>🖼️ Upload Photo</button>
 <button>📁 Upload File</button>
 <button>🎨 Create Image</button>
-</div><div class="chat-bar"><button class="icon-btn" onclick="toggleMenu()">➕</button>
-
-<input type="text" placeholder="Ask ChatNova AI"><button class="icon-btn">🎤</button>
+</div><div class="chat-bar">
+<button class="icon-btn" onclick="toggleMenu()">➕</button><input type="text" placeholder="Ask ChatNova AI"><button class="icon-btn">🎤</button>
 
 <button class="voice-btn">🎵</button>
 
 </div><script>
 function toggleMenu(){
-var menu=document.getElementById("plusMenu");
-
-if(menu.style.display==="block"){
-menu.style.display="none";
-}else{
-menu.style.display="block";
-}
+const menu=document.getElementById("plusMenu");
+menu.style.display=
+menu.style.display==="block" ? "none" : "block";
 }
 </script></body>
 </html>
