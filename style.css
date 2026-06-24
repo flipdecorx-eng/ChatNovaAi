@@ -75,8 +75,9 @@ cursor:pointer;
 }
 
 .send-btn{
-width:45px;
-height:45px;
+width:40px;
+height:40px;
+margin-right:5px
 border:none;
 border-radius:50%;
 background:#7c3aed;
