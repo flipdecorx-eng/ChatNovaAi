@@ -1,31 +1,363 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChatNova AI</title>
-<link rel="stylesheet" href="style.css">
-</head><body><div class="top-bar">
-<button class="circle-btn" onclick="openMenu()">☰</button><div class="logo">
-⚡ChatNova AI⚡
-</div><button class="circle-btn">💬</button>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatNova AI</title>
+    <style>
+        /* --- Color Palette & Purple Theme --- */
+        :root {
+            --primary: #7e22ce;       /* Deep Purple */
+            --primary-light: #a855f7; /* Vibrant Purple */
+            --primary-dark: #581c87;  /* Dark Purple */
+            --bg-main: #faf5ff;       /* Very Light Purple/White */
+            --bg-panel: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e9d5ff;
+            --shadow: rgba(126, 34, 206, 0.15);
+        }
 
-</div><div id="sideMenu">
-<button onclick="alert('Coding Page')">💻 Coding</button>
-<button onclick="alert('Schedule Page')">📅 Schedule</button>
-<button onclick="alert('AI Learning Page')">🧠 AI Learning</button>
-<button onclick="alert('Library Page')">📚 Library</button>
-<button onclick="alert('Projects Page')">📁 Projects</button>
-</div><div class="main-area">
-<div id="chatArea"></div>
-</div><div id="plusMenu">
-<button>📷 Camera</button>
-<button>🖼️ Upload Image</button>
-<button>📁 File</button>
-</div><div class="chat-bar"><button class="icon-btn" onclick="toggleMenu()">➕</button>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-<input id="userInput" type="text" placeholder="Ask ChatNova AI"><button class="mic-btn">🎙️</button>
+        body {
+            display: flex;
+            height: 100vh;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow: hidden;
+        }
 
-<button class="send-btn" onclick="sendMessage()">➤</button>
+        /* --- Sidebar (Side Menu) --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
 
-</div><script src="script.js"></script></body>
+        .sidebar-header {
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-items {
+            list-style: none;
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .menu-items li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .menu-items li:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* --- Main Chat Area --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .mobile-header {
+            display: none;
+            padding: 15px 20px;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            gap: 15px;
+        }
+
+        .hamburger {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .chat-display {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin: auto;
+            color: var(--text-muted);
+        }
+
+        .welcome-message h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        /* --- Input Area --- */
+        .input-container {
+            padding: 20px;
+            background-color: var(--bg-main);
+            position: relative;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-panel);
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            padding: 10px 15px;
+            box-shadow: 0 4px 6px var(--shadow);
+            transition: border-color 0.2s;
+        }
+
+        .input-box:focus-within {
+            border-color: var(--primary-light);
+        }
+
+        .btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: color 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background-color: var(--bg-main);
+            color: var(--primary);
+        }
+
+        .btn-send {
+            color: var(--primary);
+        }
+        
+        .btn-send:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 1rem;
+            background: transparent;
+            color: var(--text-main);
+        }
+
+        /* --- Upload Menu Popup --- */
+        .upload-menu {
+            position: absolute;
+            bottom: 80px;
+            left: 30px;
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 10px 15px var(--shadow);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 50;
+        }
+
+        .upload-menu.active {
+            display: flex;
+            animation: slideUp 0.2s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .upload-menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .upload-menu-item:hover {
+            background-color: var(--bg-main);
+            color: var(--primary);
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                height: 100%;
+                transform: translateX(-100%);
+                box-shadow: 4px 0 10px var(--shadow);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .welcome-message h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            ✨ ChatNova AI
+        </div>
+        <ul class="menu-items">
+            <li>💻 Coding</li>
+            <li>📅 Schedule</li>
+            <li>🧠 AI Learning</li>
+            <li>📚 Library</li>
+            <li>📁 Projects</li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="mobile-header">
+            <button class="hamburger" id="menuToggle">☰</button>
+            <h2 style="color: var(--primary);">ChatNova AI</h2>
+        </div>
+
+        <div class="chat-display" id="chatDisplay">
+            <div class="welcome-message">
+                <h1>Hi, I'm ChatNova</h1>
+                <p>How can I help you explore today?</p>
+            </div>
+            </div>
+
+        <div class="input-container">
+            <div class="upload-menu" id="uploadMenu">
+                <div class="upload-menu-item">📷 Camera</div>
+                <div class="upload-menu-item">🖼️ Upload Image</div>
+                <div class="upload-menu-item">📁 File</div>
+            </div>
+
+            <div class="input-box">
+                <button class="btn" id="uploadBtn" title="Upload">➕</button>
+                <input type="text" id="chatInput" placeholder="Message ChatNova AI...">
+                <button class="btn" title="Voice Input">🎙️</button>
+                <button class="btn btn-send" id="sendBtn" title="Send">➤</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadMenu = document.getElementById('uploadMenu');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatInput = document.getElementById('chatInput');
+        const chatDisplay = document.getElementById('chatDisplay');
+
+        // Toggle Sidebar for Mobile
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside (on mobile)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Toggle Upload Menu
+        uploadBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent document click from closing it immediately
+            uploadMenu.classList.toggle('active');
+        });
+
+        // Close Upload Menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!uploadMenu.contains(e.target) && !uploadBtn.contains(e.target)) {
+                uploadMenu.classList.remove('active');
+            }
+        });
+
+        // Basic Send Message Functionality
+        const sendMessage = () => {
+            const text = chatInput.value.trim();
+            if (text === '') return;
+
+            // Remove welcome message if it exists
+            const welcome = document.querySelector('.welcome-message');
+            if (welcome) welcome.style.display = 'none';
+
+            // Create user message element
+            const msgDiv = document.createElement('div');
+            msgDiv.style.alignSelf = 'flex-end';
+            msgDiv.style.backgroundColor = 'var(--primary)';
+            msgDiv.style.color = 'white';
+            msgDiv.style.padding = '10px 15px';
+            msgDiv.style.borderRadius = '15px 15px 0 15px';
+            msgDiv.style.maxWidth = '80%';
+            msgDiv.innerText = text;
+
+            // Append and scroll to bottom
+            chatDisplay.appendChild(msgDiv);
+            chatInput.value = '';
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        };
+
+        // Send via button click or Enter key
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
 </html>
