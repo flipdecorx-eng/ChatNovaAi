@@ -19,8 +19,8 @@ border:none;
 border-radius:50%;
 background:white;
 font-size:34px;
-box-shadow:0 4px 15px rgba(0,0,0,.1);
 cursor:pointer;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
 #sideMenu{
@@ -31,8 +31,8 @@ width:250px;
 height:100%;
 background:white;
 padding-top:100px;
-box-shadow:2px 0 15px rgba(0,0,0,.15);
 transition:0.3s;
+box-shadow:2px 0 15px rgba(0,0,0,0.15);
 z-index:1000;
 }
 
@@ -49,10 +49,6 @@ text-align:left;
 cursor:pointer;
 }
 
-.main-area{
-height:75vh;
-}
-
 .chat-bar{
 position:fixed;
 bottom:15px;
@@ -61,18 +57,18 @@ right:15px;
 height:70px;
 background:white;
 border-radius:35px;
-padding:0 15px;
 display:flex;
 align-items:center;
+padding:0 15px;
 gap:10px;
-box-shadow:0 8px 25px rgba(0,0,0,.1);
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
 }
 
 .chat-bar input{
 flex:1;
 border:none;
 outline:none;
-font-size:16px;
+font-size:18px;
 background:transparent;
 }
 
@@ -80,13 +76,13 @@ background:transparent;
 .mic-btn{
 border:none;
 background:none;
-font-size:22px;
+font-size:24px;
 cursor:pointer;
 }
 
 .send-btn{
-width:45px;
-height:45px;
+width:42px;
+height:42px;
 border:none;
 border-radius:50%;
 background:#7c3aed;
@@ -103,7 +99,7 @@ left:15px;
 background:white;
 padding:10px;
 border-radius:15px;
-box-shadow:0 4px 15px rgba(0,0,0,.15);
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
 }
 
 #plusMenu button{
@@ -113,7 +109,7 @@ padding:12px;
 margin:5px 0;
 border:none;
 border-radius:10px;
-font-size:16px;
 background:#f7f7f7;
+font-size:16px;
 cursor:pointer;
 }
