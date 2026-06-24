@@ -13,14 +13,21 @@ padding:20px;
 }
 
 .circle-btn{
-width:73px;
-height:73px;
+width:80px;
+height:80px;
 border:none;
 border-radius:50%;
 background:white;
-font-size:34px;
-cursor:pointer;
+font-size:36px;
 box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#7c3aed;
+display:flex;
+align-items:center;
 }
 
 #sideMenu{
@@ -42,68 +49,22 @@ width:90%;
 margin:10px auto;
 padding:15px;
 border:none;
-border-radius:12px;
+border-radius:15px;
 background:#f5f5f5;
-font-size:18px;
+font-size:20px;
 text-align:left;
-cursor:pointer;
-}
-
-.chat-bar{
-position:fixed;
-bottom:15px;
-left:15px;
-right:15px;
-height:70px;
-background:white;
-border-radius:35px;
-display:flex;
-align-items:center;
-padding:0 20px;
-gap:8px;
-box-shadow:0 8px 25px rgba(0,0,0,0.1);
-}
-overflow:hidden;
-}
-
-.chat-bar input{
-flex:1;
-border:none;
-outline:none;
-font-size:18px;
-background:transparent;
-}
-
-.icon-btn,
-.mic-btn{
-border:none;
-background:none;
-font-size:18px;
-cursor:pointer;
-}
-
-.send-btn{
-width:36px;
-height:36px;
-border:none;
-border-radius:50%;
-background:#7c3aed;
-color:white;
-font-size:14px;
-cursor:pointer;
 }
 
 #plusMenu{
 display:none;
-
-}
 position:fixed;
-bottom:95px;
-left:15px;
+bottom:100px;
+left:25px;
 background:white;
 padding:10px;
 border-radius:15px;
 box-shadow:0 4px 15px rgba(0,0,0,0.15);
+z-index:1000;
 }
 
 #plusMenu button{
@@ -113,7 +74,56 @@ padding:12px;
 margin:5px 0;
 border:none;
 border-radius:10px;
-background:#f7f7f7;
+background:#f5f5f5;
+text-align:left;
 font-size:16px;
-cursor:pointer;
+}
+
+.main-area{
+height:70vh;
+overflow:auto;
+padding:10px;
+}
+
+.chat-bar{
+position:fixed;
+bottom:15px;
+left:15px;
+right:15px;
+height:80px;
+background:white;
+border-radius:40px;
+display:flex;
+align-items:center;
+padding:0 15px;
+gap:10px;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
+}
+
+.chat-bar input{
+flex:1;
+border:none;
+outline:none;
+font-size:20px;
+background:transparent;
+}
+
+.icon-btn,
+.mic-btn{
+border:none;
+background:none;
+font-size:24px;
+}
+
+.send-btn{
+width:55px;
+height:55px;
+border:none;
+border-radius:50%;
+background:#7c3aed;
+color:white;
+font-size:22px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
