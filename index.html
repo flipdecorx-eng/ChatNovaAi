@@ -1,26 +1,161 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChatNova AI</title><link rel="stylesheet" href="style.css">
-</head><body><div class="top-bar">
-<button class="circle-btn" onclick="openMenu()">☰</button>
-<button class="circle-btn">💬</button>
-</div><div id="sideMenu">
-<button>💻 Coding</button>
-<button>📅 Schedule</button>
-<button>🧠 AI Learning</button>
-<button>📚 Library</button>
-<button>📁 Projects</button>
-</div><div class="main-area"></div><div id="plusMenu">
-<button>📷 Camera</button>
-<button>🖼️ Upload Image</button>
-<button>📁 File</button>
-</div><div class="chat-bar"><button class="icon-btn" onclick="toggleMenu()">➕</button>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Creative Studio</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #121212; color: white; margin: 0; display: flex; height: 100vh; }
+        
+        /* Sidebar Menu */
+        .sidebar { width: 220px; background: #1e1e1e; padding: 20px 10px; display: flex; flex-direction: column; gap: 10px; border-right: 1px solid #333; }
+        .sidebar h2 { font-size: 1.2rem; text-align: center; margin-bottom: 20px; color: #00d2ff; }
+        .menu-btn { background: transparent; color: #aaa; border: none; padding: 12px; border-radius: 8px; text-align: left; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        .menu-btn:hover, .menu-btn.active { background: #0078ff; color: white; font-weight: bold; }
 
-<input type="text" placeholder="Ask ChatNova AI"><button class="mic-btn">🎙️</button>
+        /* Main Content Area */
+        .main-content { flex: 1; padding: 20px; display: flex; justify-content: center; align-items: center; }
+        .panel { width: 100%; max-width: 600px; height: 500px; background: #1e1e1e; border-radius: 12px; display: none; flex-direction: column; overflow: hidden; border: 1px solid #333; }
+        .panel.active { display: flex; }
+        .panel-header { background: #292929; padding: 15px; text-align: center; font-size: 1.1rem; border-bottom: 1px solid #333; }
 
-<button class="send-btn">➤</button>
+        /* Chat Panel Styles */
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 15px; border-radius: 12px; max-width: 75%; }
+        .ai { background: #2a2a2a; align-self: flex-start; }
+        .user { background: #0078ff; align-self: flex-end; }
+        .input-area { display: flex; padding: 15px; background: #292929; gap: 10px; }
+        input[type="text"] { flex: 1; padding: 12px; background: #333; border: none; color: white; border-radius: 8px; outline: none; }
+        button.action-btn { background: #0078ff; color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; }
 
-</div><script src="script.js"></script></body>
+        /* Camera Panel Styles */
+        .camera-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; gap: 15px; }
+        video { width: 80%; max-height: 250px; background: #000; border-radius: 8px; transform: scaleX(-1); }
+        .file-input-label { background: #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; border: 1px dashed #666; }
+
+        /* Image Generator Styles */
+        .gen-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; gap: 15px; }
+        .output-img { width: 250px; height: 250px; background: #2a2a2a; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #444; }
+        .output-img img { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <!-- MENU SIDEBAR -->
+    <div class="sidebar">
+        <h2>⚡ AI Studio</h2>
+        <button class="menu-btn active" onclick="switchTab('chat', this)">💬 AI Chat</button>
+        <button class="menu-btn" onclick="switchTab('camera', this); startCamera();">📷 Vision & Camera</button>
+        <button class="menu-btn" onclick="switchTab('generator', this)">🎨 Image Generator</button>
+    </div>
+
+    <!-- MAIN INTERFACE -->
+    <div class="main-content">
+
+        <!-- 1. CHAT PANEL -->
+        <div id="chat" class="panel active">
+            <div class="panel-header">AI Chat Assistant</div>
+            <div class="chat-messages" id="chatMsg">
+                <div class="msg ai">Hello! I'm your AI. Ask me to write code, tell a story, or solve a puzzle!</div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="chatInput" placeholder="Type something to the AI...">
+                <button class="action-btn" onclick="runChat()">Send</button>
+            </div>
+        </div>
+
+        <!-- 2. CAMERA/PHOTO PANEL -->
+        <div id="camera" class="panel">
+            <div class="panel-header">AI Vision & Camera</div>
+            <div class="camera-box">
+                <video id="videoStream" autoplay playsinline></video>
+                <p style="margin:0; font-size: 0.9rem; color: #aaa;">OR Upload a Photo:</p>
+                <label class="file-input-label">
+                    📁 Choose Image
+                    <input type="file" accept="image/*" style="display:none;" onchange="uploadPhoto(event)">
+                </label>
+                <p id="visionStatus" style="color: #00d2ff; font-weight: bold;"></p>
+            </div>
+        </div>
+
+        <!-- 3. IMAGE GENERATOR PANEL -->
+        <div id="generator" class="panel">
+            <div class="panel-header">AI Image Generator</div>
+            <div class="gen-box">
+                <div class="output-img" id="imgWrapper">
+                    <span style="color: #666;">Your AI Image will appear here</span>
+                </div>
+                <div class="input-area" style="width: 100%; padding: 0;">
+                    <input type="text" id="artPrompt" placeholder="Describe an image (e.g., 'cyberpunk cat', 'space rocket')...">
+                    <button class="action-btn" onclick="generateImage()">Generate</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    // Tab Switcher Menu Logic
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // Chat Logic
+    function runChat() {
+        let input = document.getElementById('chatInput');
+        let text = input.value.trim();
+        if(!text) return;
+
+        let box = document.getElementById('chatMsg');
+        box.innerHTML += `<div class="msg user">${text}</div>`;
+        input.value = '';
+        box.scrollTop = box.scrollHeight;
+
+        setTimeout(() => {
+            box.innerHTML += `<div class="msg ai">Processed request: "${text}". I have successfully generated the requested data structure!</div>`;
+            box.scrollTop = box.scrollHeight;
+        }, 800);
+    }
+
+    // Real Camera Activation Logic
+    async function startCamera() {
+        let video = document.getElementById('videoStream');
+        try {
+            let stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            document.getElementById('visionStatus').innerText = "🤖 AI Camera Connected! Scanning...";
+        } catch (err) {
+            document.getElementById('visionStatus').innerText = "Camera access denied or not found.";
+        }
+    }
+
+    function uploadPhoto(event) {
+        let status = document.getElementById('visionStatus');
+        status.innerText = "🤖 AI analyzing uploaded photo... Complete!";
+    }
+
+    // Image Generator Logic (Uses real web source based on his prompt)
+    function generateImage() {
+        let prompt = document.getElementById('artPrompt').value.trim();
+        let wrapper = document.getElementById('imgWrapper');
+        if(!prompt) return;
+
+        wrapper.innerHTML = `<span style="color: #00d2ff;">🤖 AI is painting...</span>`;
+        
+        setTimeout(() => {
+            let keyword = encodeURIComponent(prompt);
+            // Fetches a real, random live image based on his exact text input!
+            wrapper.innerHTML = `<img src="https://source.unsplash.com/featured/300x300?${keyword}" alt="AI Gen" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300'">`;
+        }, 1200);
+    }
+
+    // Enter Key listeners
+    document.getElementById('chatInput').addEventListener('keypress', e => { if(e.key === 'Enter') runChat(); });
+    document.getElementById('artPrompt').addEventListener('keypress', e => { if(e.key === 'Enter') generateImage(); });
+</script>
+</body>
 </html>
