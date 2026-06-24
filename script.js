@@ -16,4 +16,4 @@ menu.style.left = "-260px";
 }else{
 menu.style.left = "0px";
 }
-}
+} 
