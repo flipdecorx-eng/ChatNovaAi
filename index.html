@@ -1,141 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Code Hub</title>
-    <style>
-        /* CSS Reset & General Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #0f0f11;
-            color: #e4e4e7;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            padding-bottom: 40px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatNova AI</title>
+<link rel="stylesheet" href="style.css">
+</head><body><div class="top-bar">
+<button class="circle-btn">☰</button>
+<button class="circle-btn">💬</button>
+</div><div class="main-area"></div><div id="plusMenu">
+<button>📷 Camera</button>
+<button>🖼️ Upload Photo</button>
+<button>📁 Upload File</button>
+<button>🎨 Create Image</button>
+<button>💻 Coding</button>
+<button>🧠 AI Learning</button>
+<button>📚 Library</button>
+<button>📁 Projects</button>
+<button>📅 Schedule</button>
+</div><div class="chat-bar">
+<button class="icon-btn" onclick="toggleMenu()">➕</button><input type="text" placeholder="Ask ChatNova AI"><button class="mic-btn">🎙️</button>
 
-        /* NAVIGATION MENU BAR */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #18181b;
-            padding: 16px 24px;
-            border-bottom: 1px solid #27272a;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: #3b82f6;
-            text-decoration: none;
-            letter-spacing: 0.5px;
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-        .nav-links a {
-            color: #a1a1aa;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-        .nav-links a:hover {
-            color: #3b82f6;
-        }
+<button class="send-btn">➤</button>
 
-        /* MAIN CONTENT AREA */
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        .section-title {
-            font-size: 24px;
-            margin-bottom: 8px;
-            color: #ffffff;
-        }
-        .section-desc {
-            color: #71717a;
-            margin-bottom: 24px;
-            font-size: 15px;
-        }
-
-        /* THE CODE DISPLAY BOX */
-        .code-block-wrapper {
-            background-color: #18181b;
-            border: 1px solid #27272a;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-        }
-        /* Top bar of the code box (like VS Code window) */
-        .code-header {
-            background-color: #202024;
-            padding: 10px 16px;
-            border-bottom: 1px solid #27272a;
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-            color: #a1a1aa;
-            font-family: monospace;
-        }
-        pre {
-            padding: 20px;
-            overflow-x: auto; /* Adds scrollbar if code is too wide */
-            margin: 0;
-        }
-        code {
-            font-family: 'Fira Code', 'Courier New', Courier, monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #e4e4e7;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- 1. NAVIGATION MENU -->
-    <nav class="navbar">
-        <a href="#" class="logo">AI.Codex</a>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">AI Models</a></li>
-            <li><a href="#">Snippets</a></li>
-            <li><a href="#">Docs</a></li>
-        </ul>
-    </nav>
-
-    <!-- 2. MAIN CONTAINER -->
-    <div class="container">
-        <h2 class="section-title">AI Integration Code</h2>
-        <p class="section-desc">Copy and paste this script to connect your application with the AI server.</p>
-
-        <!-- 3. CODE BOX -->
-        <div class="code-block-wrapper">
-            <div class="code-header">app.js</div>
-<pre><code>// Initialize AI SDK Configuration
-const aiConfig = {
-    apiKey: "YOUR_AI_SECRET_KEY",
-    endpoint: "https://api.mywebsite.com/v1"
-};
-
-async function fetchAIResult(prompt) {
-    console.log("Sending prompt to AI model...");
-    // Your processing code logic goes here
-    return "Response received successfully.";
-}</code></pre>
-        </div>
-    </div>
-
-</body>
+</div><script src="script.js"></script></body>
 </html>
