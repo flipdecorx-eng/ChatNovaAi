@@ -349,6 +349,27 @@
 
             // Append and scroll to bottom
             chatDisplay.appendChild(msgDiv);
+
+const aiMsg = document.createElement("div");
+aiMsg.style.alignSelf = "flex-start";
+aiMsg.style.background = "#eeeeee";
+aiMsg.style.padding = "10px 15px";
+aiMsg.style.borderRadius = "15px";
+aiMsg.style.margin = "10px";
+aiMsg.innerText = "Thinking...";
+chatDisplay.appendChild(aiMsg);
+const response = await fetch("https://calm-rice-33af.flipdecorx.workers.dev", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    message: text
+  })
+});
+
+const data = await response.json();
+aiMsg.innerText = data.reply;
             chatInput.value = '';
             chatDisplay.scrollTop = chatDisplay.scrollHeight;
         };
