@@ -139,12 +139,12 @@ html, body {
 .welcome-container h1 {
     color: var(--primary);
     margin-bottom: 12px;
-    font-size: 36px;
+    font-size: 20px;
 }
 
 .welcome-container p {
     color: var(--text-muted);
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
 }
 
@@ -161,7 +161,7 @@ html, body {
     align-items: center;
     background-color: var(--bg-panel); 
     border: 1px solid var(--border);
-    border-radius: 30px;
+    border-radius: 29px;
     padding: 8px 16px;
     box-shadow: 0 4px 15px var(--shadow); 
     transition: all 0.2s ease;
@@ -183,9 +183,9 @@ html, body {
     font-size: 20px;
     color: var(--text-muted);
     cursor: pointer;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+    border-radius: 49%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -210,14 +210,14 @@ html, body {
     /* ── Header & Status Bar Top Margin ── */
     .app-header {
         padding-top: 16px !important; /* Spec: 16px Top Margin */
-        padding-bottom: 12px !important;
+        padding-bottom: 10px !important;
         padding-horizontal: 16px !important;
     }
 
     /* Spec: Menu Hamburger Width = 18px */
     .menu-btn {
-        font-size: 18px !important;
-        padding: 6px 10px !important;
+        font-size: 15px !important;
+        padding: 5px 8px !important;
     }
 
     /* ── Header Font Width Block Customization ── */
@@ -237,7 +237,7 @@ html, body {
     }
 
     .welcome-container p {
-        font-size: 13.5px !important;
+        font-size: 11.5px !important;
         line-height: 1.4 !important;
     }
 
