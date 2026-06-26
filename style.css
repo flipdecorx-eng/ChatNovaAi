@@ -21,14 +21,20 @@
 
 body {
     display: flex;
-    height: 100vh;
+    /* 🌟 CRITICAL FIX: Locks the screen boundaries to prevent content from expanding downward */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
+    height: 100%; 
     background-color: var(--bg-main);
     color: var(--text-main);
     overflow: hidden;
 }
 
-/* --- Sidebar (Side Menu) --- */
+/* --- Sidebar Navigation --- */
 .sidebar {
     width: 260px;
     min-width: 260px;
@@ -80,12 +86,13 @@ body {
     color: white;
 }
 
-/* --- Main Workspace --- */
+/* --- Main Content Layout --- */
 .main-content {
-    flex-grow: 1;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100%; /* Sticks rigidly to the locked body size */
+    width: 100%;
     position: relative;
     overflow: hidden;
 }
@@ -97,6 +104,7 @@ body {
     background-color: var(--bg-panel);
     border-bottom: 1px solid var(--border);
     gap: 15px;
+    flex-shrink: 0; /* Prevents header from shrinking */
 }
 
 .menu-btn {
@@ -124,9 +132,10 @@ body {
     color: var(--primary-dark);
 }
 
-/* --- Chat Output --- */
+/* --- Dynamic Chat Container --- */
 .chat-display {
-    flex-grow: 1;
+    flex: 1;
+    min-height: 0; /* 🌟 CRITICAL FIX: Forces any extra tall text to scroll safely inside this panel */
     padding: 20px;
     overflow-y: auto;
     display: flex;
@@ -183,12 +192,13 @@ body {
     border: 1px solid var(--border);
 }
 
-/* --- Input Bar Area --- */
+/* --- Fixed Bottom Input Area --- */
 .input-area-wrapper {
     padding: 20px;
     background-color: var(--bg-panel);
     border-top: 1px solid var(--border);
     position: relative;
+    flex-shrink: 0; /* 🌟 CRITICAL FIX: Keeps the layout from flattening or dropping this block */
 }
 
 .input-box-container {
@@ -248,7 +258,7 @@ body {
     color: var(--text-main);
 }
 
-/* --- ➕ Upload Floating Menu --- */
+/* --- Floating Upload Menu --- */
 .upload-popup-menu {
     position: absolute;
     bottom: 85px;
@@ -290,10 +300,10 @@ body {
     color: var(--primary-dark);
 }
 
-/* --- Responsive Engine --- */
+/* --- Mobile Viewport Responsiveness --- */
 @media (max-width: 768px) {
     .sidebar {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         height: 100%;
@@ -308,5 +318,71 @@ body {
         height: 100vh;
         background: rgba(0,0,0,0.4);
         z-index: 90;
+    }
+
+    .app-header {
+        padding: 10px 15px;
+        gap: 12px;
+    }
+    
+    .app-title {
+        font-size: 1.1rem;
+    }
+
+    .menu-btn {
+        padding: 4px 10px;
+        font-size: 1.1rem;
+    }
+
+    /* Scales down greeting titles so they never bully other elements off screen */
+    .welcome-container {
+        padding: 5px;
+    }
+
+    .welcome-container h1 {
+        font-size: 1.6rem; 
+        margin-bottom: 6px;
+    }
+
+    .welcome-container p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    .chat-display {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .message {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+        max-width: 85%;
+    }
+
+    /* Compresses padding elements slightly so it hugs mobile browser limits perfectly */
+    .input-area-wrapper {
+        padding: 10px 12px;
+        padding-bottom: max(12px, env(safe-area-inset-bottom)); /* Dynamic system gesture line balancing */
+    }
+
+    .input-box-container {
+        padding: 4px 6px;
+    }
+
+    .chat-input {
+        padding: 6px;
+        font-size: 0.95rem;
+    }
+
+    .action-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .upload-popup-menu {
+        bottom: 65px;
+        left: 12px;
     }
 }
