@@ -121,7 +121,7 @@ html, body {
 .chat-display {
     flex: 1;
     min-height: 0;
-    padding: 20px;
+    padding: 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -132,14 +132,14 @@ html, body {
 .welcome-container {
     text-align: center;
     margin: auto;
-    max-width: 500px;
+    max-width: 350px;
     padding: 20px;
 }
 
 .welcome-container h1 {
     color: var(--primary);
-    margin-bottom: 12px;
-    font-size: 20px;
+    margin-bottom: 11px;
+    font-size: 16px;
 }
 
 .welcome-container p {
