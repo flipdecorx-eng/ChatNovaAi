@@ -30,7 +30,7 @@ html, body {
     left: 0;
 }
 
-/* --- Sidebar --- */
+/* --- Sidebar System --- */
 .sidebar {
     width: 260px;
     min-width: 260px;
@@ -117,7 +117,7 @@ html, body {
     color: var(--primary-dark);
 }
 
-/* --- Chat Interior Canvas --- */
+/* --- Chat Canvas --- */
 .chat-display {
     flex: 1;
     min-height: 0;
@@ -148,7 +148,7 @@ html, body {
     line-height: 1.5;
 }
 
-/* --- Floating Input Wrapper --- */
+/* --- Base Input Layout --- */
 .input-area-wrapper {
     padding: 15px 20px 25px 20px;
     background-color: var(--bg-main); 
@@ -196,63 +196,104 @@ html, body {
     color: var(--primary);
 }
 
-/* --- 🌟 THE UNBREAKABLE MOBILE PIXEL OVERRIDE 🌟 --- */
+
+/* ==========================================================================
+   🌟 PIXEL-PERFECT MOBILE BREAKPOINT OVERRIDES (390px Baseline Setup) 🌟
+   ========================================================================== */
 @media (max-width: 768px) {
     
-    /* Forces the view container to obey exact screen space */
     html, body, .main-content {
         height: 100dvh !important;
         max-height: 100dvh !important;
     }
 
-    /* 1. Sets fixed small pixel sizes so system settings can't make it big */
-    .welcome-container h1, 
-    .chat-display h1 {
-        font-size: 24px !important; /* Perfect small size heading */
+    /* ── Header & Status Bar Top Margin ── */
+    .app-header {
+        padding-top: 16px !important; /* Spec: 16px Top Margin */
+        padding-bottom: 12px !important;
+        padding-horizontal: 16px !important;
+    }
+
+    /* Spec: Menu Hamburger Width = 18px */
+    .menu-btn {
+        font-size: 18px !important;
+        padding: 6px 10px !important;
+    }
+
+    /* ── Header Font Width Block Customization ── */
+    .welcome-container {
+        width: 100% !important;
+        max-width: 240px !important; /* Spec: Font Width ~240px total text block */
+        margin: auto !important;
+        padding: 0px !important;
+    }
+
+    .welcome-container h1 {
+        font-size: 24px !important; /* Scaled down perfectly to fit 240px on one single line */
         font-weight: 700 !important;
-        margin-bottom: 6px !important;
-        letter-spacing: -0.5px !important;
+        margin-bottom: 8px !important; /* Spec: Header Spacing Between Title/Subtitle = 8px */
+        letter-spacing: -0.4px !important;
+        white-space: nowrap !important; /* Prevents awkward mobile word breaks */
     }
 
-    .welcome-container p, 
-    .chat-display p {
-        font-size: 13px !important; /* Perfect small description text */
+    .welcome-container p {
+        font-size: 13.5px !important;
         line-height: 1.4 !important;
-        max-width: 250px !important;
-        margin: 0 auto !important;
     }
 
-    /* 2. Forces input box wrapper to remain floating at the very bottom */
+    /* ── Bottom Floating Input Area ── */
     .input-area-wrapper {
         position: absolute !important;
         bottom: 0 !important;
         left: 0 !important;
         width: 100% !important;
         padding: 12px 16px !important;
-        padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+        padding-bottom: 24px !important; /* Spec: Bottom Spacing Input Bar to screen floor = 24px */
         background-color: var(--bg-main) !important;
         z-index: 999 !important;
     }
 
-    /* Creates layout room at the bottom so text doesn't slide under the pill */
+    /* Buffer protection so text doesn't flow behind the pill */
     .chat-display {
-        padding-bottom: 90px !important;
+        padding-bottom: 95px !important;
     }
 
     .input-box-container {
-        padding: 6px 12px !important;
+        padding: 6px 14px !important;
         border-radius: 24px !important;
-        box-shadow: 0 4px 12px rgba(126, 34, 206, 0.08) !important;
+        box-shadow: 0 4px 12px rgba(126, 34, 206, 0.07) !important;
+        gap: 8px !important;
     }
 
     .chat-input {
-        padding: 6px !important;
-        font-size: 14px !important;
+        padding: 6px 4px !important;
+        font-size: 14.5px !important;
     }
 
-    .action-btn {
-        width: 32px !important;
-        height: 32px !important;
+    /* ── Micro Device Icon Spec Syncing ── */
+    
+    /* Spec: Mike Width (Microphone Icon) = 16px */
+    .action-btn.mic, 
+    .input-box-container .fa-microphone,
+    .input-box-container svg.mic-icon {
         font-size: 16px !important;
+        width: 16px !important;
+        max-width: 16px !important;
+    }
+
+    /* Spec: Send Button Width (Arrow Icon) = 20px */
+    .action-btn.send,
+    .input-box-container .fa-paper-plane,
+    .input-box-container svg.send-icon {
+        font-size: 20px !important;
+        width: 20px !important;
+        max-width: 20px !important;
+    }
+    
+    .action-btn {
+        height: auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 }
