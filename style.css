@@ -20,12 +20,12 @@
 }
 
 html, body {
-    height: 100dvh; /* Uses the true dynamic mobile screen height */
+    height: 100dvh; 
     width: 100vw;
     background-color: var(--bg-main);
     color: var(--text-main);
     overflow: hidden;
-    position: fixed; /* Freezes screen bounce on touch devices */
+    position: fixed;
     top: 0;
     left: 0;
 }
@@ -77,11 +77,6 @@ html, body {
     color: var(--text-main);
 }
 
-.menu-items li:hover {
-    background-color: var(--primary);
-    color: white;
-}
-
 /* --- Main Layout Frame --- */
 .main-content {
     flex: 1;
@@ -130,7 +125,7 @@ html, body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Beautifully balances welcome text in dead center */
+    justify-content: center; 
     gap: 20px;
 }
 
@@ -144,16 +139,16 @@ html, body {
 .welcome-container h1 {
     color: var(--primary);
     margin-bottom: 12px;
-    font-size: 2.4rem;
+    font-size: 36px;
 }
 
 .welcome-container p {
     color: var(--text-muted);
-    font-size: 1.05rem;
+    font-size: 16px;
     line-height: 1.5;
 }
 
-/* --- Base Floating Input Wrapper --- */
+/* --- Floating Input Wrapper --- */
 .input-area-wrapper {
     padding: 15px 20px 25px 20px;
     background-color: var(--bg-main); 
@@ -177,7 +172,7 @@ html, body {
     border: none;
     outline: none;
     padding: 10px;
-    font-size: 1rem;
+    font-size: 16px;
     background: transparent;
     color: var(--text-main);
 }
@@ -185,7 +180,7 @@ html, body {
 .action-btn {
     background: none;
     border: none;
-    font-size: 1.2rem;
+    font-size: 20px;
     color: var(--text-muted);
     cursor: pointer;
     width: 40px;
@@ -201,47 +196,63 @@ html, body {
     color: var(--primary);
 }
 
-/* --- Strict Mobile Sizing Override System --- */
+/* --- 🌟 THE UNBREAKABLE MOBILE PIXEL OVERRIDE 🌟 --- */
 @media (max-width: 768px) {
     
-    /* 🌟 FORCES MAIN HEADING TO MATCH THE SMALL SIZE IN YOUR PICTURE */
-    .welcome-container h1 {
-        font-size: 1.6rem !important; 
+    /* Forces the view container to obey exact screen space */
+    html, body, .main-content {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+    }
+
+    /* 1. Sets fixed small pixel sizes so system settings can't make it big */
+    .welcome-container h1, 
+    .chat-display h1 {
+        font-size: 24px !important; /* Perfect small size heading */
         font-weight: 700 !important;
         margin-bottom: 6px !important;
         letter-spacing: -0.5px !important;
     }
 
-    /* 🌟 FORCES DESCRIPTION TEXT TO BE SMALL AND CLEAN */
-    .welcome-container p {
-        font-size: 0.88rem !important;
+    .welcome-container p, 
+    .chat-display p {
+        font-size: 13px !important; /* Perfect small description text */
         line-height: 1.4 !important;
-        max-width: 280px !important;
+        max-width: 250px !important;
         margin: 0 auto !important;
-        color: var(--text-muted) !important;
     }
 
-    /* 🌟 ADJUSTS PILL POSITIONING TO FLOAT EXACTLY LIKE THE PICTURE */
+    /* 2. Forces input box wrapper to remain floating at the very bottom */
     .input-area-wrapper {
-        padding: 10px 16px !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        padding: 12px 16px !important;
         padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
         background-color: var(--bg-main) !important;
+        z-index: 999 !important;
+    }
+
+    /* Creates layout room at the bottom so text doesn't slide under the pill */
+    .chat-display {
+        padding-bottom: 90px !important;
     }
 
     .input-box-container {
-        padding: 6px 14px !important;
+        padding: 6px 12px !important;
         border-radius: 24px !important;
-        box-shadow: 0 3px 10px rgba(126, 34, 206, 0.08) !important;
+        box-shadow: 0 4px 12px rgba(126, 34, 206, 0.08) !important;
     }
 
     .chat-input {
-        padding: 6px 8px !important;
-        font-size: 0.95rem !important;
+        padding: 6px !important;
+        font-size: 14px !important;
     }
 
     .action-btn {
-        width: 34px !important;
-        height: 34px !important;
-        font-size: 1.05rem !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 16px !important;
     }
 }
