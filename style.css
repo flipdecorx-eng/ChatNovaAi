@@ -19,24 +19,18 @@
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-html {
-    height: -webkit-fill-available; /* Hard fix for mobile browser viewport bugs */
-}
-
-body {
-    display: flex;
-    height: 100vh;
-    height: -webkit-fill-available; 
+html, body {
+    height: 100dvh; /* Uses the true dynamic mobile screen height */
     width: 100vw;
     background-color: var(--bg-main);
     color: var(--text-main);
     overflow: hidden;
-    position: fixed; /* Locks screen to prevent messy dynamic vertical bouncing */
+    position: fixed; /* Freezes screen bounce on touch devices */
     top: 0;
     left: 0;
 }
 
-/* --- Sidebar Navigation --- */
+/* --- Sidebar --- */
 .sidebar {
     width: 260px;
     min-width: 260px;
@@ -88,12 +82,12 @@ body {
     color: white;
 }
 
-/* --- Main Content Viewport --- */
+/* --- Main Layout Frame --- */
 .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100dvh;
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -117,15 +111,9 @@ body {
     cursor: pointer;
     padding: 6px 12px;
     border-radius: 8px;
-    transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.menu-btn:hover {
-    background-color: var(--primary);
-    color: white;
 }
 
 .app-title {
@@ -134,14 +122,15 @@ body {
     color: var(--primary-dark);
 }
 
-/* --- Chat Scrolling Area --- */
+/* --- Chat Interior Canvas --- */
 .chat-display {
     flex: 1;
-    min-height: 0; /* Forces extra long text to scroll internally instead of popping out */
+    min-height: 0;
     padding: 20px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Beautifully balances welcome text in dead center */
     gap: 20px;
 }
 
@@ -155,68 +144,42 @@ body {
 .welcome-container h1 {
     color: var(--primary);
     margin-bottom: 12px;
-    font-size: 2.3rem;
+    font-size: 2.4rem;
 }
 
 .welcome-container p {
     color: var(--text-muted);
     font-size: 1.05rem;
-}
-
-.message {
-    max-width: 75%;
-    padding: 14px 18px;
-    border-radius: 18px;
-    font-size: 1rem;
     line-height: 1.5;
-    word-wrap: break-word;
-    animation: fadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.message.user {
-    align-self: flex-end;
-    background-color: var(--primary);
-    color: white;
-    border-radius: 18px 18px 0 18px;
-    box-shadow: 0 4px 10px var(--shadow);
-}
-
-.message.assistant {
-    align-self: flex-start;
-    background-color: var(--bg-panel);
-    color: var(--text-main);
-    border-radius: 18px 18px 18px 0;
-    border: 1px solid var(--border);
-}
-
-/* --- Fixed Bottom Input Area --- */
+/* --- Base Floating Input Wrapper --- */
 .input-area-wrapper {
-    padding: 20px;
-    background-color: var(--bg-panel);
-    border-top: 1px solid var(--border);
+    padding: 15px 20px 25px 20px;
+    background-color: var(--bg-main); 
     position: relative;
-    flex-shrink: 0; /* Absolute Shield: Prevents upper elements from crushing the input bar */
+    flex-shrink: 0;
 }
 
 .input-box-container {
     display: flex;
     align-items: center;
-    background-color: var(--bg-main);
-    border: 2px solid var(--border);
+    background-color: var(--bg-panel); 
+    border: 1px solid var(--border);
     border-radius: 30px;
-    padding: 6px 12px;
+    padding: 8px 16px;
+    box-shadow: 0 4px 15px var(--shadow); 
     transition: all 0.2s ease;
 }
 
-.input-box-container:focus-within {
-    border-color: var(--primary-light);
-    background-color: #fff;
-    box-shadow: 0 0 12px var(--shadow);
+.chat-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 1rem;
+    background: transparent;
+    color: var(--text-main);
 }
 
 .action-btn {
@@ -225,169 +188,60 @@ body {
     font-size: 1.2rem;
     color: var(--text-muted);
     cursor: pointer;
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
     flex-shrink: 0;
-}
-
-.action-btn:hover {
-    background-color: var(--border);
-    color: var(--primary-dark);
 }
 
 .action-btn.send {
     color: var(--primary);
-    background-color: var(--bg-sidebar);
 }
 
-.action-btn.send:hover {
-    background-color: var(--primary);
-    color: white;
-}
-
-.chat-input {
-    flex-grow: 1;
-    border: none;
-    outline: none;
-    padding: 12px;
-    font-size: 1rem;
-    background: transparent;
-    color: var(--text-main);
-}
-
-/* --- Floating Upload Menu --- */
-.upload-popup-menu {
-    position: absolute;
-    bottom: 85px;
-    left: 25px;
-    background-color: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: 0 12px 24px var(--shadow);
-    display: none;
-    flex-direction: column;
-    width: 180px;
-    z-index: 200;
-    overflow: hidden;
-}
-
-.upload-popup-menu.show {
-    display: flex;
-    animation: popUp 0.2s ease;
-}
-
-@keyframes popUp {
-    from { opacity: 0; transform: translateY(15px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.upload-option {
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s;
-    color: var(--text-main);
-}
-
-.upload-option:hover {
-    background-color: var(--bg-sidebar);
-    color: var(--primary-dark);
-}
-
-/* --- Mobile Device Sizing Engine --- */
+/* --- Strict Mobile Sizing Override System --- */
 @media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-    }
     
-    body.sidebar-open::after {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0,0,0,0.4);
-        z-index: 90;
-    }
-
-    .app-header {
-        padding: 10px 15px;
-        gap: 12px;
-    }
-    
-    .app-title {
-        font-size: 1.1rem;
-    }
-
-    .menu-btn {
-        padding: 4px 10px;
-        font-size: 1.1rem;
-    }
-
-    /* 🌟 FIX: Drastically downscale the text size so it stops pushing layout bounds */
-    .welcome-container {
-        padding: 0px;
-        margin: auto;
-    }
-
+    /* 🌟 FORCES MAIN HEADING TO MATCH THE SMALL SIZE IN YOUR PICTURE */
     .welcome-container h1 {
-        font-size: 1.5rem; /* Shrunk down to look elegant on phone screens */
-        margin-bottom: 4px;
+        font-size: 1.6rem !important; 
+        font-weight: 700 !important;
+        margin-bottom: 6px !important;
+        letter-spacing: -0.5px !important;
     }
 
+    /* 🌟 FORCES DESCRIPTION TEXT TO BE SMALL AND CLEAN */
     .welcome-container p {
-        font-size: 0.8rem; /* Keeps description small and compact */
-        line-height: 1.3;
-        max-width: 280px;
-        margin: 0 auto;
+        font-size: 0.88rem !important;
+        line-height: 1.4 !important;
+        max-width: 280px !important;
+        margin: 0 auto !important;
+        color: var(--text-muted) !important;
     }
 
-    .chat-display {
-        padding: 10px;
-        gap: 10px;
-    }
-
-    .message {
-        font-size: 0.88rem;
-        padding: 8px 12px;
-        max-width: 85%;
-    }
-
-    /* 🌟 FIX: Tight padding locks input container securely above phone navigation tools */
+    /* 🌟 ADJUSTS PILL POSITIONING TO FLOAT EXACTLY LIKE THE PICTURE */
     .input-area-wrapper {
-        padding: 8px 10px;
-        padding-bottom: max(10px, env(safe-area-inset-bottom));
+        padding: 10px 16px !important;
+        padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+        background-color: var(--bg-main) !important;
     }
 
     .input-box-container {
-        padding: 2px 4px;
+        padding: 6px 14px !important;
+        border-radius: 24px !important;
+        box-shadow: 0 3px 10px rgba(126, 34, 206, 0.08) !important;
     }
 
     .chat-input {
-        padding: 6px;
-        font-size: 0.9rem;
+        padding: 6px 8px !important;
+        font-size: 0.95rem !important;
     }
 
     .action-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 0.95rem;
-    }
-
-    .upload-popup-menu {
-        bottom: 60px;
-        left: 10px;
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 1.05rem !important;
     }
 }
