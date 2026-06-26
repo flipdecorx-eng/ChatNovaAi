@@ -381,8 +381,6 @@ try {
 
   const data = await response.json();
 
-  console.log(data);
-
   if (data.reply) {
     aiMsg.innerText = data.reply;
   } else if (data.error) {
@@ -394,3 +392,14 @@ try {
 } catch (err) {
   aiMsg.innerText = "Network Error: " + err.message;
 }
+
+chatInput.value = "";
+chatDisplay.scrollTop = chatDisplay.scrollHeight;
+sendBtn.addEventListener("click", sendMessage);
+
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});
+
