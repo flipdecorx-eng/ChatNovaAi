@@ -330,71 +330,54 @@
 
         // Basic Send Message Functionality
         const sendMessage = async () => {
-            const text = chatInput.value.trim();
-            if (text === '') return;
+  const text = chatInput.value.trim();
+  if (!text) return;
 
-            // Remove welcome message if it exists
-            const welcome = document.querySelector('.welcome-message');
-            if (welcome) welcome.style.display = 'none';
+  const welcome = document.querySelector(".welcome-message");
+  if (welcome) welcome.style.display = "none";
 
-            // Create user message element
-            const msgDiv = document.createElement('div');
-            msgDiv.style.alignSelf = 'flex-end';
-            msgDiv.style.backgroundColor = 'var(--primary)';
-            msgDiv.style.color = 'white';
-            msgDiv.style.padding = '10px 15px';
-            msgDiv.style.borderRadius = '15px 15px 0 15px';
-            msgDiv.style.maxWidth = '80%';
-            msgDiv.innerText = text;
+  const userMsg = document.createElement("div");
+  userMsg.style.alignSelf = "flex-end";
+  userMsg.style.background = "#7e22ce";
+  userMsg.style.color = "white";
+  userMsg.style.padding = "10px 15px";
+  userMsg.style.borderRadius = "15px";
+  userMsg.style.margin = "10px";
+  userMsg.innerText = text;
+  chatDisplay.appendChild(userMsg);
 
-            // Append and scroll to bottom
-            chatDisplay.appendChild(msgDiv);
+  const aiMsg = document.createElement("div");
+  aiMsg.style.alignSelf = "flex-start";
+  aiMsg.style.background = "#eeeeee";
+  aiMsg.style.padding = "10px 15px";
+  aiMsg.style.borderRadius = "15px";
+  aiMsg.style.margin = "10px";
+  aiMsg.innerText = "Thinking...";
+  chatDisplay.appendChild(aiMsg);
 
-const aiMsg = document.createElement("div");
-aiMsg.style.alignSelf = "flex-start";
-aiMsg.style.background = "#eeeeee";
-aiMsg.style.padding = "10px 15px";
-aiMsg.style.borderRadius = "15px";
-aiMsg.style.margin = "10px";
-aiMsg.innerText = "Thinking...";
-chatDisplay.appendChild(aiMsg);
-const response = await fetch("https://calm-rice-33af.flipdecorx.workers.dev", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    message: text
-  })
-});
+  chatInput.value = "";
+  chatDisplay.scrollTop = chatDisplay.scrollHeight;
 
-try {
-  const response = await fetch("https://calm-rice-33af.flipdecorx.workers.dev", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      message: text
-    })
-  });
+  try {
+    const response = await fetch("https://calm-rice-33af.flipdecorx.workers.dev", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text
+      })
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (data.reply) {
-    aiMsg.innerText = data.reply;
-  } else if (data.error) {
-    aiMsg.innerText = "Error: " + data.error;
-  } else {
-    aiMsg.innerText = JSON.stringify(data);
+    aiMsg.innerText = data.reply || data.error || "No response";
+
+  } catch (err) {
+    aiMsg.innerText = "Network Error: " + err.message;
   }
+};
 
-} catch (err) {
-  aiMsg.innerText = "Network Error: " + err.message;
-}
-
-chatInput.value = "";
-chatDisplay.scrollTop = chatDisplay.scrollHeight;
 sendBtn.addEventListener("click", sendMessage);
 
 chatInput.addEventListener("keydown", (e) => {
@@ -402,4 +385,3 @@ chatInput.addEventListener("keydown", (e) => {
     sendMessage();
   }
 });
-
