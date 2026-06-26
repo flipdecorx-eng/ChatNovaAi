@@ -5,29 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatNova AI</title>
     <style>
-        /* --- Color Palette & Purple Theme --- */
+        /* --- Purple Theme Variables --- */
         :root {
-            --primary: #7e22ce;       /* Deep Purple */
-            --primary-light: #a855f7; /* Vibrant Purple */
+            --primary: #7e22ce;       /* Main Purple */
+            --primary-light: #a855f7; /* Light Purple */
             --primary-dark: #581c87;  /* Dark Purple */
-            --bg-main: #faf5ff;       /* Very Light Purple/White */
-            --bg-panel: #ffffff;
+            --bg-main: #fbfbfe;       /* Main Chat Background */
+            --bg-sidebar: #f3e8ff;    /* Light Purple Sidebar */
+            --bg-panel: #ffffff;      /* Pure White Panels */
             --text-main: #1f2937;
             --text-muted: #6b7280;
             --border: #e9d5ff;
-            --shadow: rgba(126, 34, 206, 0.15);
+            --shadow: rgba(126, 34, 206, 0.12);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
             display: flex;
             height: 100vh;
+            width: 100vw;
             background-color: var(--bg-main);
             color: var(--text-main);
             overflow: hidden;
@@ -36,23 +38,29 @@
         /* --- Sidebar (Side Menu) --- */
         .sidebar {
             width: 260px;
-            background-color: var(--bg-panel);
+            min-width: 260px;
+            background-color: var(--bg-sidebar);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             z-index: 100;
+        }
+
+        /* Class to collapse sidebar on desktop/mobile */
+        .sidebar.collapsed {
+            margin-left: -260px;
         }
 
         .sidebar-header {
             padding: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
         }
 
         .menu-items {
@@ -65,13 +73,14 @@
         .menu-items li {
             padding: 12px 15px;
             margin-bottom: 8px;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background 0.2s, color 0.2s;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 12px;
             font-weight: 500;
+            color: var(--text-main);
         }
 
         .menu-items li:hover {
@@ -79,170 +88,238 @@
             color: white;
         }
 
-        /* --- Main Chat Area --- */
+        /* --- Main Chat Workspace --- */
         .main-content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            height: 100%;
             position: relative;
+            overflow: hidden;
         }
 
-        .mobile-header {
-            display: none;
+        /* Persistent Header for Top Actions */
+        .app-header {
+            display: flex;
+            align-items: center;
             padding: 15px 20px;
             background-color: var(--bg-panel);
             border-bottom: 1px solid var(--border);
-            align-items: center;
             gap: 15px;
         }
 
-        .hamburger {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
+        .menu-btn {
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            font-size: 1.3rem;
             color: var(--primary);
             cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .menu-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* --- Chat Stream Display --- */
         .chat-display {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .welcome-message {
+        .welcome-container {
             text-align: center;
             margin: auto;
-            color: var(--text-muted);
-        }
-
-        .welcome-message h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-        }
-
-        /* --- Input Area --- */
-        .input-container {
+            max-width: 500px;
             padding: 20px;
-            background-color: var(--bg-main);
+        }
+
+        .welcome-container h1 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 2.3rem;
+        }
+
+        .welcome-container p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Chat Bubbles */
+        .message {
+            max-width: 75%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 1rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 18px 18px 0 18px;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+            background-color: var(--bg-panel);
+            color: var(--text-main);
+            border-radius: 18px 18px 18px 0;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* --- Input Action Center --- */
+        .input-area-wrapper {
+            padding: 20px;
+            background-color: var(--bg-panel);
+            border-top: 1px solid var(--border);
             position: relative;
         }
 
-        .input-box {
+        .input-box-container {
             display: flex;
             align-items: center;
-            background-color: var(--bg-panel);
+            background-color: var(--bg-main);
             border: 2px solid var(--border);
-            border-radius: 24px;
-            padding: 10px 15px;
-            box-shadow: 0 4px 6px var(--shadow);
-            transition: border-color 0.2s;
+            border-radius: 30px;
+            padding: 6px 12px;
+            transition: all 0.2s ease;
         }
 
-        .input-box:focus-within {
+        .input-box-container:focus-within {
             border-color: var(--primary-light);
+            background-color: #fff;
+            box-shadow: 0 0 12px var(--shadow);
         }
 
-        .btn {
+        .action-btn {
             background: none;
             border: none;
             font-size: 1.2rem;
             color: var(--text-muted);
             cursor: pointer;
-            padding: 8px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            transition: color 0.2s, background 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
         }
 
-        .btn:hover {
-            background-color: var(--bg-main);
-            color: var(--primary);
+        .action-btn:hover {
+            background-color: var(--border);
+            color: var(--primary-dark);
         }
 
-        .btn-send {
+        .action-btn.send {
             color: var(--primary);
+            background-color: var(--bg-sidebar);
         }
-        
-        .btn-send:hover {
+
+        .action-btn.send:hover {
             background-color: var(--primary);
             color: white;
         }
 
-        input[type="text"] {
+        .chat-input {
             flex-grow: 1;
             border: none;
             outline: none;
-            padding: 10px;
+            padding: 12px;
             font-size: 1rem;
             background: transparent;
             color: var(--text-main);
         }
 
-        /* --- Upload Menu Popup --- */
-        .upload-menu {
+        /* --- Floating Upload Overlay Menu --- */
+        .upload-popup-menu {
             position: absolute;
-            bottom: 80px;
-            left: 30px;
+            bottom: 85px;
+            left: 25px;
             background-color: var(--bg-panel);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 10px 15px var(--shadow);
+            border-radius: 14px;
+            box-shadow: 0 12px 24px var(--shadow);
             display: none;
             flex-direction: column;
+            width: 180px;
+            z-index: 200;
             overflow: hidden;
-            z-index: 50;
         }
 
-        .upload-menu.active {
+        .upload-popup-menu.show {
             display: flex;
-            animation: slideUp 0.2s ease-out;
+            animation: popUp 0.2s ease;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes popUp {
+            from { opacity: 0; transform: translateY(15px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .upload-menu-item {
-            padding: 12px 20px;
+        .upload-option {
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
+            font-weight: 500;
             transition: background 0.2s;
+            color: var(--text-main);
         }
 
-        .upload-menu-item:hover {
-            background-color: var(--bg-main);
-            color: var(--primary);
+        .upload-option:hover {
+            background-color: var(--bg-sidebar);
+            color: var(--primary-dark);
         }
 
-        /* --- Mobile Responsiveness --- */
+        /* --- Responsive Screen Dynamics --- */
         @media (max-width: 768px) {
             .sidebar {
                 position: absolute;
+                top: 0;
+                left: 0;
                 height: 100%;
-                transform: translateX(-100%);
-                box-shadow: 4px 0 10px var(--shadow);
             }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .mobile-header {
-                display: flex;
-            }
-
-            .welcome-message h1 {
-                font-size: 2rem;
+            
+            /* Overlay shadow background when sidebar is open on mobile */
+            body.sidebar-open::after {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.4);
+                z-index: 90;
             }
         }
     </style>
@@ -251,112 +328,168 @@
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            ✨ ChatNova AI
+            <span>✨ ChatNova AI</span>
         </div>
         <ul class="menu-items">
-            <li>💻 Coding</li>
-            <li>📅 Schedule</li>
-            <li>🧠 AI Learning</li>
-            <li>📚 Library</li>
-            <li>📁 Projects</li>
+            <li onclick="selectMenu('Coding')">💻 Coding</li>
+            <li onclick="selectMenu('Schedule')">📅 Schedule</li>
+            <li onclick="selectMenu('AI Learning')">🧠 AI Learning</li>
+            <li onclick="selectMenu('Library')">📚 Library</li>
+            <li onclick="selectMenu('Projects')">📁 Projects</li>
         </ul>
     </aside>
 
     <main class="main-content">
-        <div class="mobile-header">
-            <button class="hamburger" id="menuToggle">☰</button>
-            <h2 style="color: var(--primary);">ChatNova AI</h2>
-        </div>
+        <header class="app-header">
+            <button class="menu-btn" id="globalMenuToggle" title="Toggle Sidebar">☰</button>
+            <div class="app-title" id="dynamicTitle">ChatNova AI</div>
+        </header>
 
         <div class="chat-display" id="chatDisplay">
-            <div class="welcome-message">
+            <div class="welcome-container" id="welcomeScreen">
                 <h1>Hi, I'm ChatNova</h1>
-                <p>How can I help you explore today?</p>
+                <p>Your intelligent purple workspace. Ask me anything, structure schedules, or paste code blocks to get started.</p>
             </div>
+        </div>
+
+        <div class="input-area-wrapper">
+            
+            <div class="upload-popup-menu" id="uploadPopupMenu">
+                <div class="upload-option" onclick="triggerUpload('Camera')">📷 Camera</div>
+                <div class="upload-option" onclick="triggerUpload('Image')">🖼️ Upload Image</div>
+                <div class="upload-option" onclick="triggerUpload('File')">📁 File</div>
             </div>
 
-        <div class="input-container">
-            <div class="upload-menu" id="uploadMenu">
-                <div class="upload-menu-item">📷 Camera</div>
-                <div class="upload-menu-item">🖼️ Upload Image</div>
-                <div class="upload-menu-item">📁 File</div>
-            </div>
-
-            <div class="input-box">
-                <button class="btn" id="uploadBtn" title="Upload">➕</button>
-                <input type="text" id="chatInput" placeholder="Message ChatNova AI...">
-                <button class="btn" title="Voice Input">🎙️</button>
-                <button class="btn btn-send" id="sendBtn" title="Send">➤</button>
+            <div class="input-box-container">
+                <button class="action-btn" id="plusMenuBtn" title="Upload Content" type="button">➕</button>
+                <input type="text" id="chatInputField" class="chat-input" placeholder="Message ChatNova AI..." autocomplete="off">
+                <button class="action-btn" id="micBtn" title="Voice Input" type="button">🎙️</button>
+                <button class="action-btn send" id="sendMsgBtn" title="Send Message" type="button">➤</button>
             </div>
         </div>
     </main>
 
     <script>
-        // DOM Elements
+        // DOM Elements Configuration
         const sidebar = document.getElementById('sidebar');
-        const menuToggle = document.getElementById('menuToggle');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const uploadMenu = document.getElementById('uploadMenu');
-        const sendBtn = document.getElementById('sendBtn');
-        const chatInput = document.getElementById('chatInput');
+        const globalMenuToggle = document.getElementById('globalMenuToggle');
+        const plusMenuBtn = document.getElementById('plusMenuBtn');
+        const uploadPopupMenu = document.getElementById('uploadPopupMenu');
+        const sendMsgBtn = document.getElementById('sendMsgBtn');
+        const chatInputField = document.getElementById('chatInputField');
         const chatDisplay = document.getElementById('chatDisplay');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const micBtn = document.getElementById('micBtn');
 
-        // Toggle Sidebar for Mobile
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
+        // 1. Sidebar Collapse / Expand Functionality (Desktop & Mobile)
+        globalMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('collapsed');
+            document.body.classList.toggle('sidebar-open');
         });
 
-        // Close sidebar when clicking outside (on mobile)
+        // Close sidebar on mobile when clicking the workspace backdrop
         document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(e.target) && 
-                !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !globalMenuToggle.contains(e.target)) {
+                    sidebar.classList.add('collapsed');
+                    document.body.classList.remove('sidebar-open');
+                }
             }
         });
 
-        // Toggle Upload Menu
-        uploadBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent document click from closing it immediately
-            uploadMenu.classList.toggle('active');
+        // 2. ➕ Plus Upload Menu Mechanics
+        plusMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Stop window click from instantly shutting the menu
+            uploadPopupMenu.classList.toggle('show');
         });
 
-        // Close Upload Menu when clicking outside
+        // Dismiss upload menu when clicking anywhere else on screen
         document.addEventListener('click', (e) => {
-            if (!uploadMenu.contains(e.target) && !uploadBtn.contains(e.target)) {
-                uploadMenu.classList.remove('active');
+            if (!uploadPopupMenu.contains(e.target) && !plusMenuBtn.contains(e.target)) {
+                uploadPopupMenu.classList.remove('show');
             }
         });
 
-        // Basic Send Message Functionality
-        const sendMessage = () => {
-            const text = chatInput.value.trim();
-            if (text === '') return;
+        // 3. Execution Logic for Upload Actions
+        function triggerUpload(type) {
+            uploadPopupMenu.classList.remove('show');
+            
+            // Render simulated upload systemic response
+            hideWelcome();
+            appendMessage(`System Action: Activated ${type} pipeline.`, 'assistant');
+        }
 
-            // Remove welcome message if it exists
-            const welcome = document.querySelector('.welcome-message');
-            if (welcome) welcome.style.display = 'none';
+        // 4. Sidebar Content Categorization Simulation
+        function selectMenu(category) {
+            document.getElementById('dynamicTitle').innerText = `ChatNova AI — ${category}`;
+            hideWelcome();
+            appendMessage(`Switched contextual canvas to: **${category}** mode.`, 'assistant');
+            
+            // Auto collapse sidebar view on mobile after item choice
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('collapsed');
+                document.body.classList.remove('sidebar-open');
+            }
+        }
 
-            // Create user message element
-            const msgDiv = document.createElement('div');
-            msgDiv.style.alignSelf = 'flex-end';
-            msgDiv.style.backgroundColor = 'var(--primary)';
-            msgDiv.style.color = 'white';
-            msgDiv.style.padding = '10px 15px';
-            msgDiv.style.borderRadius = '15px 15px 0 15px';
-            msgDiv.style.maxWidth = '80%';
-            msgDiv.innerText = text;
+        // 5. Chat Lifecycle Engine (Send & Response)
+        function executeUserSend() {
+            const queryText = chatInputField.value.trim();
+            if (!queryText) return; // Prevent empty transmissions
 
-            // Append and scroll to bottom
-            chatDisplay.appendChild(msgDiv);
-            chatInput.value = '';
+            hideWelcome();
+            
+            // Inject User Message Bubble
+            appendMessage(queryText, 'user');
+            chatInputField.value = ''; // Flush input track
+
+            // Trigger AI Automated Response Generation Routine
+            simulateAIResponse(queryText);
+        }
+
+        function appendMessage(text, sender) {
+            const msgBubble = document.createElement('div');
+            msgBubble.classList.add('message', sender);
+            msgBubble.innerHTML = text;
+            
+            chatDisplay.appendChild(msgBubble);
+            
+            // Enforce automatic scroll-down tracking
             chatDisplay.scrollTop = chatDisplay.scrollHeight;
-        };
+        }
 
-        // Send via button click or Enter key
-        sendBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+        function hideWelcome() {
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'none';
+            }
+        }
+
+        function simulateAIResponse(userPrompt) {
+            setTimeout(() => {
+                let reply = "I process prompts universally. Tell me how to configure your current stack!";
+                
+                if (userPrompt.toLowerCase().includes('hello') || userPrompt.toLowerCase().includes('hi')) {
+                    reply = "Hello! ChatNova AI online. Ready to build software, organize calendars, or parse intelligence tracks.";
+                } else {
+                    reply = `I am processing your text request: "<em>${userPrompt}</em>". Custom workspace triggers are online.`;
+                }
+                appendMessage(reply, 'assistant');
+            }, 750);
+        }
+
+        // Event Attachment Links
+        sendMsgBtn.addEventListener('click', executeUserSend);
+        
+        chatInputField.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                executeUserSend();
+            }
+        });
+
+        micBtn.addEventListener('click', () => {
+            hideWelcome();
+            appendMessage("<em>Listening for audio stream input...</em>", 'assistant');
         });
     </script>
 </body>
