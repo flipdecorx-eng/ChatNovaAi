@@ -1,0 +1,217 @@
+/* --- Purple Theme Variables --- */
+:root {
+    --primary: #7e22ce;       /* Main Purple */
+    --primary-light: #a855f7; /* Light Purple */
+    --primary-dark: #581c87;  /* Dark Purple */
+    --bg-main: #fbfbfe;       /* Main Chat Background */
+    --bg-sidebar: #f3e8ff;    /* Light Purple Sidebar */
+    --bg-panel: #ffffff;      /* Pure White Panels */
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e9d5ff;
+    --shadow: rgba(126, 34, 206, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+html, body {
+    height: 100dvh; 
+    width: 100vw;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    /* 🌟 THE ANCHOR FIX: Stops mobile Chrome from inflating font sizes automatically */
+    -webkit-text-size-adjust: 100% !important;
+    text-size-adjust: 100% !important;
+}
+
+/* --- Sidebar System --- */
+.sidebar {
+    width: 260px;
+    min-width: 260px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.sidebar.collapsed {
+    margin-left: -260px;
+}
+
+/* --- Main Layout Frame --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header Top Margin Spec: 16px */
+.app-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 16px 12px 16px !important; 
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+/* Menu Hamburger Width Spec: 18px */
+.menu-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px !important; 
+    width: 18px !important;
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+/* --- Chat Interior Canvas --- */
+.chat-display {
+    flex: 1;
+    min-height: 0;
+    padding: 20px;
+    padding-bottom: 100px; 
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    gap: 20px;
+}
+
+/* --- 🌟 FORCE MOBILE-FIRST SMALL SIZES BY DEFAULT 🌟 --- */
+/* Spec: Font Width Text Block = ~240px */
+.welcome-container {
+    text-align: center;
+    margin: auto !important;
+    width: 240px !important; 
+    max-width: 240px !important;
+    padding: 0px !important;
+}
+
+.welcome-container h1, h1 {
+    color: var(--primary) !important;
+    font-size: 20px !important; /* Forces title header small */
+    font-weight: 700 !important;
+    /* Spec: Header Spacing Between Title and Subtitle = 8px */
+    margin-bottom: 8px !important; 
+    letter-spacing: -0.4px !important;
+}
+
+.welcome-container p, p {
+    color: var(--text-muted) !important;
+    font-size: 12px !important; /* Forces descriptor text small */
+    line-height: 1.4 !important;
+}
+
+/* --- Floating Bottom Input Layout --- */
+.input-area-wrapper {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 12px 16px !important;
+    /* Spec: Bottom Spacing Input Bar to Screen Floor = 24px */
+    padding-bottom: 24px !important; 
+    background-color: var(--bg-main) !important;
+    z-index: 999 !important;
+}
+
+.input-box-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-panel); 
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 6px 14px;
+    box-shadow: 0 4px 12px rgba(126, 34, 206, 0.06); 
+    gap: 10px;
+}
+
+.chat-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 6px;
+    font-size: 14px;
+    background: transparent;
+    color: var(--text-main);
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Spec: Mike Width (Microphone Icon) = 16px */
+.action-btn.mic,
+.action-btn .fa-microphone {
+    font-size: 16px !important;
+    width: 16px !important;
+    max-width: 16px !important;
+}
+
+/* Spec: Send Button Width (Arrow Icon) = 20px */
+.action-btn.send,
+.action-btn .fa-paper-plane {
+    color: var(--primary);
+    font-size: 20px !important;
+    width: 20px !important;
+    max-width: 20px !important;
+}
+
+/* --- Desktop Scaling Reset (Triggers only on computers) --- */
+@media (min-width: 769px) {
+    .welcome-container {
+        max-width: 500px;
+        width: auto !important;
+    }
+    .welcome-container h1 {
+        font-size: 36px !important;
+        margin-bottom: 12px !important;
+    }
+    .welcome-container p {
+        font-size: 16px !important;
+    }
+    .input-area-wrapper {
+        position: relative;
+        padding: 15px 20px 25px 20px !important;
+    }
+    .chat-display {
+        padding-bottom: 20px;
+    }
+    .menu-btn {
+        font-size: 22px !important;
+        width: auto !important;
+    }
+}
