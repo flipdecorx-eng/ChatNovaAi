@@ -29,12 +29,12 @@ html, body {
     top: 0;
     left: 0;
     
-    /* 🌟 THE ANCHOR FIX: Stops mobile Chrome from inflating font sizes automatically */
-    -webkit-text-size-adjust: 100% !important;
-    text-size-adjust: 100% !important;
+    /* 🌟 ANTI-INFLATION BLOCK: Mobile Chrome ko text bada karne se strictly rokta hai */
+    -webkit-text-size-adjust: none !important;
+    text-size-adjust: none !important;
 }
 
-/* --- Sidebar System --- */
+/* --- Sidebar --- */
 .sidebar {
     width: 260px;
     min-width: 260px;
@@ -50,7 +50,7 @@ html, body {
     margin-left: -260px;
 }
 
-/* --- Main Layout Frame --- */
+/* --- Main Layout --- */
 .main-content {
     flex: 1;
     display: flex;
@@ -91,12 +91,12 @@ html, body {
     color: var(--primary-dark);
 }
 
-/* --- Chat Interior Canvas --- */
+/* --- Chat Interior Area --- */
 .chat-display {
     flex: 1;
     min-height: 0;
     padding: 20px;
-    padding-bottom: 100px; 
+    padding-bottom: 110px; 
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -104,8 +104,8 @@ html, body {
     gap: 20px;
 }
 
-/* --- 🌟 FORCE MOBILE-FIRST SMALL SIZES BY DEFAULT 🌟 --- */
-/* Spec: Font Width Text Block = ~240px */
+/* ─── 🌟 ULTRA-SMALL MOBILE FIX FIRST 🌟 ─── */
+/* Spec: Block Width = ~240px */
 .welcome-container {
     text-align: center;
     margin: auto !important;
@@ -114,18 +114,18 @@ html, body {
     padding: 0px !important;
 }
 
-.welcome-container h1, h1 {
+/* Font ko forcefully chhota karne ke liye pixels aur kam kar diye hain */
+.welcome-container h1, h1, .chat-display h1 {
     color: var(--primary) !important;
-    font-size: 20px !important; /* Forces title header small */
+    font-size: 18px !important; /* Ab yeh bilkul perfectly chhota dikhega */
     font-weight: 700 !important;
-    /* Spec: Header Spacing Between Title and Subtitle = 8px */
-    margin-bottom: 8px !important; 
+    margin-bottom: 8px !important; /* Spec: Space between title/subtitle = 8px */
     letter-spacing: -0.4px !important;
 }
 
-.welcome-container p, p {
+.welcome-container p, p, .chat-display p {
     color: var(--text-muted) !important;
-    font-size: 12px !important; /* Forces descriptor text small */
+    font-size: 11.5px !important; /* Compact, tiny elegant clean look */
     line-height: 1.4 !important;
 }
 
@@ -136,8 +136,7 @@ html, body {
     left: 0 !important;
     width: 100% !important;
     padding: 12px 16px !important;
-    /* Spec: Bottom Spacing Input Bar to Screen Floor = 24px */
-    padding-bottom: 24px !important; 
+    padding-bottom: 24px !important; /* Spec: Space from screen bottom = 24px */
     background-color: var(--bg-main) !important;
     z-index: 999 !important;
 }
@@ -149,7 +148,7 @@ html, body {
     border: 1px solid var(--border);
     border-radius: 24px;
     padding: 6px 14px;
-    box-shadow: 0 4px 12px rgba(126, 34, 206, 0.06); 
+    box-shadow: 0 4px 12px rgba(126, 34, 206, 0.05); 
     gap: 10px;
 }
 
@@ -158,7 +157,7 @@ html, body {
     border: none;
     outline: none;
     padding: 6px;
-    font-size: 14px;
+    font-size: 13.5px;
     background: transparent;
     color: var(--text-main);
 }
@@ -173,24 +172,22 @@ html, body {
     justify-content: center;
 }
 
-/* Spec: Mike Width (Microphone Icon) = 16px */
-.action-btn.mic,
-.action-btn .fa-microphone {
+/* Spec: Microphone Width = 16px */
+.action-btn.mic, .action-btn .fa-microphone {
     font-size: 16px !important;
     width: 16px !important;
     max-width: 16px !important;
 }
 
-/* Spec: Send Button Width (Arrow Icon) = 20px */
-.action-btn.send,
-.action-btn .fa-paper-plane {
+/* Spec: Send Arrow Width = 20px */
+.action-btn.send, .action-btn .fa-paper-plane {
     color: var(--primary);
     font-size: 20px !important;
     width: 20px !important;
     max-width: 20px !important;
 }
 
-/* --- Desktop Scaling Reset (Triggers only on computers) --- */
+/* --- Desktop Screens Setup (Sirf Computer Par Text Bada Hoga) --- */
 @media (min-width: 769px) {
     .welcome-container {
         max-width: 500px;
