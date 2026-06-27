@@ -20,7 +20,7 @@
 }
 
 html, body {
-    height: 100dvh; 
+    height: 100dvh;
     width: 100vw;
     background-color: var(--bg-main);
     color: var(--text-main);
@@ -28,8 +28,9 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    
-    /* 🌟 ANTI-INFLATION BLOCK: Mobile Chrome ko text bada karne se strictly rokta hai */
+    display: flex;
+
+    /* Mobile Chrome ko layout automatically bada karne se rokhne ke liye */
     -webkit-text-size-adjust: none !important;
     text-size-adjust: none !important;
 }
@@ -50,9 +51,45 @@ html, body {
     margin-left: -260px;
 }
 
-/* --- Main Layout --- */
+.sidebar-header {
+    padding: 20px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-items {
+    list-style: none;
+    padding: 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.menu-items li {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.menu-items li:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* --- Main Framework Area --- */
 .main-content {
-    flex: 1;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     height: 100dvh;
@@ -61,22 +98,21 @@ html, body {
     overflow: hidden;
 }
 
-/* Header Top Margin Spec: 16px */
+/* Header Config */
 .app-header {
     display: flex;
     align-items: center;
-    padding: 16px 16px 12px 16px !important; 
+    padding: 16px 16px 12px 16px !important;
     background-color: var(--bg-panel);
     border-bottom: 1px solid var(--border);
     gap: 15px;
     flex-shrink: 0;
 }
 
-/* Menu Hamburger Width Spec: 18px */
 .menu-btn {
     background: transparent;
     border: none;
-    font-size: 18px !important; 
+    font-size: 18px !important;
     width: 18px !important;
     color: var(--primary);
     cursor: pointer;
@@ -91,52 +127,83 @@ html, body {
     color: var(--primary-dark);
 }
 
-/* --- Chat Interior Area --- */
+/* Chat Output Stream View */
 .chat-display {
-    flex: 1;
+    flex-grow: 1;
     min-height: 0;
     padding: 20px;
-    padding-bottom: 110px; 
+    padding-bottom: 120px; /* input bar ke liye block safe space */
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     gap: 20px;
 }
 
-/* ─── 🌟 ULTRA-SMALL MOBILE FIX FIRST 🌟 ─── */
-/* Spec: Block Width = ~240px */
+/* ─── 🌟 CHHOTA TEXT LOOK (MOBILE-FIRST) 🌟 ─── */
 .welcome-container {
     text-align: center;
     margin: auto !important;
-    width: 240px !important; 
-    max-width: 240px !important;
+    width: 260px !important;
+    max-width: 260px !important;
     padding: 0px !important;
 }
 
-/* Font ko forcefully chhota karne ke liye pixels aur kam kar diye hain */
-.welcome-container h1, h1, .chat-display h1 {
+.welcome-container h1 {
     color: var(--primary) !important;
-    font-size: 18px !important; /* Ab yeh bilkul perfectly chhota dikhega */
+    font-size: 18px !important; /* Elegant modern small sizing */
     font-weight: 700 !important;
-    margin-bottom: 8px !important; /* Spec: Space between title/subtitle = 8px */
-    letter-spacing: -0.4px !important;
+    margin-bottom: 6px !important;
+    letter-spacing: -0.3px !important;
 }
 
-.welcome-container p, p, .chat-display p {
+.welcome-container p {
     color: var(--text-muted) !important;
-    font-size: 11.5px !important; /* Compact, tiny elegant clean look */
+    font-size: 12px !important; /* Premium clean small subtitle */
     line-height: 1.4 !important;
 }
 
-/* --- Floating Bottom Input Layout --- */
+/* Messages Component Setup */
+.message {
+    max-width: 75%;
+    padding: 14px 18px;
+    border-radius: 18px;
+    font-size: 1rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+    align-self: flex-end;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 18px 18px 0 18px;
+    box-shadow: 0 4px 10px var(--shadow);
+}
+
+.message.assistant {
+    align-self: flex-start;
+    background-color: var(--bg-panel);
+    color: var(--text-main);
+    border-radius: 18px 18px 18px 0;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* ─── 🌟 SEND BUTTON & INPUT BOX CENTER LOGIC (FIXED) 🌟 ─── */
 .input-area-wrapper {
     position: absolute !important;
     bottom: 0 !important;
     left: 0 !important;
     width: 100% !important;
     padding: 12px 16px !important;
-    padding-bottom: 24px !important; /* Spec: Space from screen bottom = 24px */
+    padding-bottom: 24px !important; /* Screen floor gap */
     background-color: var(--bg-main) !important;
     z-index: 999 !important;
 }
@@ -144,50 +211,127 @@ html, body {
 .input-box-container {
     display: flex;
     align-items: center;
-    background-color: var(--bg-panel); 
+    justify-content: space-between !important; /* Elements perfectly spread inside bar */
+    background-color: var(--bg-panel);
     border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 6px 14px;
-    box-shadow: 0 4px 12px rgba(126, 34, 206, 0.05); 
-    gap: 10px;
+    border-radius: 28px;
+    padding: 6px 14px !important; /* Side margin protection */
+    box-shadow: 0 4px 12px rgba(126, 34, 206, 0.05);
+    gap: 8px;
 }
 
 .chat-input {
     flex-grow: 1;
     border: none;
     outline: none;
-    padding: 6px;
-    font-size: 13.5px;
+    padding: 6px 4px;
+    font-size: 14px;
     background: transparent;
     color: var(--text-main);
+}
+
+/* Right-side aligned buttons container (Mic + Send centered properly) */
+.input-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    padding-right: 2px;
 }
 
 .action-btn {
     background: none;
     border: none;
+    font-size: 1.1rem;
     color: var(--text-muted);
     cursor: pointer;
-    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
 }
 
-/* Spec: Microphone Width = 16px */
-.action-btn.mic, .action-btn .fa-microphone {
-    font-size: 16px !important;
-    width: 16px !important;
-    max-width: 16px !important;
+.action-btn:hover {
+    background-color: var(--border);
+    color: var(--primary-dark);
 }
 
-/* Spec: Send Arrow Width = 20px */
-.action-btn.send, .action-btn .fa-paper-plane {
-    color: var(--primary);
-    font-size: 20px !important;
-    width: 20px !important;
-    max-width: 20px !important;
+.action-btn.send {
+    color: var(--primary) !important;
+    font-size: 1.2rem !important;
+    background-color: transparent !important;
+    width: auto;
+    height: auto;
 }
 
-/* --- Desktop Screens Setup (Sirf Computer Par Text Bada Hoga) --- */
+/* --- Upload Overlay Menu --- */
+.upload-popup-menu {
+    position: absolute;
+    bottom: 85px;
+    left: 25px;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 12px 24px var(--shadow);
+    display: none;
+    flex-direction: column;
+    width: 180px;
+    z-index: 200;
+    overflow: hidden;
+}
+
+.upload-popup-menu.show {
+    display: flex;
+    animation: popUp 0.2s ease;
+}
+
+@keyframes popUp {
+    from { opacity: 0; transform: translateY(15px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.upload-option {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+    color: var(--text-main);
+}
+
+.upload-option:hover {
+    background-color: var(--bg-sidebar);
+    color: var(--primary-dark);
+}
+
+/* --- Responsive Layout Configurations --- */
+@media (max-width: 768px) {
+    .sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+    }
+
+    body.sidebar-open::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.4);
+        z-index: 90;
+    }
+}
+
+/* Computers / Desktop Screen Override scaling rules */
 @media (min-width: 769px) {
     .welcome-container {
         max-width: 500px;
@@ -202,13 +346,9 @@ html, body {
     }
     .input-area-wrapper {
         position: relative;
-        padding: 15px 20px 25px 20px !important;
+        padding: 20px !important;
     }
     .chat-display {
         padding-bottom: 20px;
-    }
-    .menu-btn {
-        font-size: 22px !important;
-        width: auto !important;
     }
 }
