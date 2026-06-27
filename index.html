@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ChatNova AI</title>
     <style>
         /* --- Purple Theme Variables --- */
@@ -26,13 +26,20 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
-        body {
-            display: flex;
-            height: 100vh;
+        html, body {
+            height: 100dvh;
             width: 100vw;
             background-color: var(--bg-main);
             color: var(--text-main);
             overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+
+            /* Mobile Chrome ko text automatically bada karne se rokne ke liye */
+            -webkit-text-size-adjust: none !important;
+            text-size-adjust: none !important;
         }
 
         /* --- Sidebar (Side Menu) --- */
@@ -47,7 +54,6 @@
             z-index: 100;
         }
 
-        /* Class to collapse sidebar on desktop/mobile */
         .sidebar.collapsed {
             margin-left: -260px;
         }
@@ -93,42 +99,37 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 100dvh;
+            width: 100%;
             position: relative;
             overflow: hidden;
         }
 
-        /* Persistent Header for Top Actions */
+        /* Persistent Header */
         .app-header {
             display: flex;
             align-items: center;
-            padding: 15px 20px;
+            padding: 16px 16px 12px 16px !important;
             background-color: var(--bg-panel);
             border-bottom: 1px solid var(--border);
             gap: 15px;
+            flex-shrink: 0;
         }
 
         .menu-btn {
-            background: var(--bg-sidebar);
-            border: 1px solid var(--border);
-            font-size: 1.3rem;
+            background: transparent;
+            border: none;
+            font-size: 18px !important;
+            width: 18px !important;
             color: var(--primary);
             cursor: pointer;
-            padding: 6px 12px;
-            border-radius: 8px;
-            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .menu-btn:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
         .app-title {
-            font-size: 1.25rem;
+            font-size: 18px;
             font-weight: 600;
             color: var(--primary-dark);
         }
@@ -136,29 +137,37 @@
         /* --- Chat Stream Display --- */
         .chat-display {
             flex-grow: 1;
+            min-height: 0;
             padding: 20px;
+            padding-bottom: 120px; /* Space protected for bottom input bar */
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             gap: 20px;
         }
 
+        /* ─── 🌟 ULTRA-SLEEK CHHOTA TEXT CONFIGURATION 🌟 ─── */
         .welcome-container {
             text-align: center;
-            margin: auto;
-            max-width: 500px;
-            padding: 20px;
+            margin: auto !important;
+            width: 260px !important;
+            max-width: 260px !important;
+            padding: 0px !important;
         }
 
         .welcome-container h1 {
-            color: var(--primary);
-            margin-bottom: 12px;
-            font-size: 2.3rem;
+            color: var(--primary) !important;
+            font-size: 18px !important; /* Perfect small dimensions */
+            font-weight: 700 !important;
+            margin-bottom: 6px !important;
+            letter-spacing: -0.3px !important;
         }
 
         .welcome-container p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
+            color: var(--text-muted) !important;
+            font-size: 12px !important; /* Tiny premium looking subtitle text */
+            line-height: 1.4 !important;
         }
 
         /* Chat Bubbles */
@@ -194,38 +203,57 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
-        /* --- Input Action Center --- */
+        /* ─── 🌟 FIXED INPUT BOX & RIGHT ICONS ALIGNMENT 🌟 ─── */
         .input-area-wrapper {
-            padding: 20px;
-            background-color: var(--bg-panel);
-            border-top: 1px solid var(--border);
-            position: relative;
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            padding: 12px 16px !important;
+            padding-bottom: 24px !important; /* Screen floor margin */
+            background-color: var(--bg-main) !important;
+            z-index: 999 !important;
         }
 
         .input-box-container {
             display: flex;
             align-items: center;
-            background-color: var(--bg-main);
-            border: 2px solid var(--border);
-            border-radius: 30px;
-            padding: 6px 12px;
-            transition: all 0.2s ease;
+            justify-content: space-between !important;
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 6px 14px !important;
+            box-shadow: 0 4px 12px rgba(126, 34, 206, 0.05);
+            gap: 8px;
         }
 
-        .input-box-container:focus-within {
-            border-color: var(--primary-light);
-            background-color: #fff;
-            box-shadow: 0 0 12px var(--shadow);
+        .chat-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 6px 4px;
+            font-size: 14px;
+            background: transparent;
+            color: var(--text-main);
+        }
+
+        /* Right Side Actions wrapper to prevent button layout overflow */
+        .input-actions-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+            padding-right: 2px;
         }
 
         .action-btn {
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
             cursor: pointer;
-            width: 42px;
-            height: 42px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -240,23 +268,11 @@
         }
 
         .action-btn.send {
-            color: var(--primary);
-            background-color: var(--bg-sidebar);
-        }
-
-        .action-btn.send:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .chat-input {
-            flex-grow: 1;
-            border: none;
-            outline: none;
-            padding: 12px;
-            font-size: 1rem;
-            background: transparent;
-            color: var(--text-main);
+            color: var(--primary) !important;
+            font-size: 1.2rem !important;
+            background-color: transparent !important;
+            width: auto;
+            height: auto;
         }
 
         /* --- Floating Upload Overlay Menu --- */
@@ -309,8 +325,7 @@
                 left: 0;
                 height: 100%;
             }
-            
-            /* Overlay shadow background when sidebar is open on mobile */
+
             body.sidebar-open::after {
                 content: '';
                 position: fixed;
@@ -320,6 +335,28 @@
                 height: 100vh;
                 background: rgba(0,0,0,0.4);
                 z-index: 90;
+            }
+        }
+
+        /* Large Computer Monitors Reset Scaling */
+        @media (min-width: 769px) {
+            .welcome-container {
+                max-width: 500px;
+                width: auto !important;
+            }
+            .welcome-container h1 {
+                font-size: 36px !important;
+                margin-bottom: 12px !important;
+            }
+            .welcome-container p {
+                font-size: 16px !important;
+            }
+            .input-area-wrapper {
+                position: relative;
+                padding: 20px !important;
+            }
+            .chat-display {
+                padding-bottom: 20px;
             }
         }
     </style>
@@ -339,7 +376,7 @@
         </ul>
     </aside>
 
-    <main class="main-content">
+    <div class="main-content">
         <header class="app-header">
             <button class="menu-btn" id="globalMenuToggle" title="Toggle Sidebar">☰</button>
             <div class="app-title" id="dynamicTitle">ChatNova AI</div>
@@ -347,13 +384,13 @@
 
         <div class="chat-display" id="chatDisplay">
             <div class="welcome-container" id="welcomeScreen">
-                <h1>Hi, I'm ChatNova</h1>
-                <p>Your intelligent purple workspace. Ask me anything, structure schedules, or paste code blocks to get started.</p>
+                <h1>Hi, I'm ChatNova AI</h1>
+                <p>How do I help you</p>
             </div>
         </div>
 
         <div class="input-area-wrapper">
-            
+
             <div class="upload-popup-menu" id="uploadPopupMenu">
                 <div class="upload-option" onclick="triggerUpload('Camera')">📷 Camera</div>
                 <div class="upload-option" onclick="triggerUpload('Image')">🖼️ Upload Image</div>
@@ -363,14 +400,17 @@
             <div class="input-box-container">
                 <button class="action-btn" id="plusMenuBtn" title="Upload Content" type="button">➕</button>
                 <input type="text" id="chatInputField" class="chat-input" placeholder="Message ChatNova AI..." autocomplete="off">
-                <button class="action-btn" id="micBtn" title="Voice Input" type="button">🎙️</button>
-                <button class="action-btn send" id="sendMsgBtn" title="Send Message" type="button">➤</button>
+                
+                <!-- Right Side Actions Group to stop layout shifting -->
+                <div class="input-actions-right">
+                    <button class="action-btn" id="micBtn" title="Voice Input" type="button">🎙️</button>
+                    <button class="action-btn send" id="sendMsgBtn" title="Send Message" type="button">➤</button>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <script>
-        // DOM Elements Configuration
         const sidebar = document.getElementById('sidebar');
         const globalMenuToggle = document.getElementById('globalMenuToggle');
         const plusMenuBtn = document.getElementById('plusMenuBtn');
@@ -381,14 +421,12 @@
         const welcomeScreen = document.getElementById('welcomeScreen');
         const micBtn = document.getElementById('micBtn');
 
-        // 1. Sidebar Collapse / Expand Functionality (Desktop & Mobile)
         globalMenuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             sidebar.classList.toggle('collapsed');
             document.body.classList.toggle('sidebar-open');
         });
 
-        // Close sidebar on mobile when clicking the workspace backdrop
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 768) {
                 if (!sidebar.contains(e.target) && !globalMenuToggle.contains(e.target)) {
@@ -398,53 +436,41 @@
             }
         });
 
-        // 2. ➕ Plus Upload Menu Mechanics
         plusMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Stop window click from instantly shutting the menu
+            e.stopPropagation();
             uploadPopupMenu.classList.toggle('show');
         });
 
-        // Dismiss upload menu when clicking anywhere else on screen
         document.addEventListener('click', (e) => {
             if (!uploadPopupMenu.contains(e.target) && !plusMenuBtn.contains(e.target)) {
                 uploadPopupMenu.classList.remove('show');
             }
         });
 
-        // 3. Execution Logic for Upload Actions
         function triggerUpload(type) {
             uploadPopupMenu.classList.remove('show');
-            
-            // Render simulated upload systemic response
             hideWelcome();
             appendMessage(`System Action: Activated ${type} pipeline.`, 'assistant');
         }
 
-        // 4. Sidebar Content Categorization Simulation
         function selectMenu(category) {
             document.getElementById('dynamicTitle').innerText = `ChatNova AI — ${category}`;
             hideWelcome();
             appendMessage(`Switched contextual canvas to: **${category}** mode.`, 'assistant');
-            
-            // Auto collapse sidebar view on mobile after item choice
+
             if (window.innerWidth <= 768) {
                 sidebar.classList.add('collapsed');
                 document.body.classList.remove('sidebar-open');
             }
         }
 
-        // 5. Chat Lifecycle Engine (Send & Response)
         function executeUserSend() {
             const queryText = chatInputField.value.trim();
-            if (!queryText) return; // Prevent empty transmissions
+            if (!queryText) return;
 
             hideWelcome();
-            
-            // Inject User Message Bubble
             appendMessage(queryText, 'user');
-            chatInputField.value = ''; // Flush input track
-
-            // Trigger AI Automated Response Generation Routine
+            chatInputField.value = '';
             simulateAIResponse(queryText);
         }
 
@@ -452,10 +478,7 @@
             const msgBubble = document.createElement('div');
             msgBubble.classList.add('message', sender);
             msgBubble.innerHTML = text;
-            
             chatDisplay.appendChild(msgBubble);
-            
-            // Enforce automatic scroll-down tracking
             chatDisplay.scrollTop = chatDisplay.scrollHeight;
         }
 
@@ -468,7 +491,6 @@
         function simulateAIResponse(userPrompt) {
             setTimeout(() => {
                 let reply = "I process prompts universally. Tell me how to configure your current stack!";
-                
                 if (userPrompt.toLowerCase().includes('hello') || userPrompt.toLowerCase().includes('hi')) {
                     reply = "Hello! ChatNova AI online. Ready to build software, organize calendars, or parse intelligence tracks.";
                 } else {
@@ -478,9 +500,7 @@
             }, 750);
         }
 
-        // Event Attachment Links
         sendMsgBtn.addEventListener('click', executeUserSend);
-        
         chatInputField.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 executeUserSend();
