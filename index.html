@@ -5,368 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ChatNova AI</title>
     <style>
-        /* --- Purple Theme Variables --- */
         :root {
-            --primary: #7e22ce;       /* Main Purple */
-            --primary-light: #a855f7; /* Light Purple */
-            --primary-dark: #581c87;  /* Dark Purple */
-            --bg-main: #fbfbfe;       /* Main Chat Background */
-            --bg-sidebar: #f3e8ff;    /* Light Purple Sidebar */
-            --bg-panel: #ffffff;      /* Pure White Panels */
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border: #e9d5ff;
+            --primary: #7e22ce; --primary-light: #a855f7; --primary-dark: #581c87;
+            --bg-main: #fbfbfe; --bg-sidebar: #f3e8ff; --bg-panel: #ffffff;
+            --text-main: #1f2937; --text-muted: #6b7280; --border: #e9d5ff;
             --shadow: rgba(126, 34, 206, 0.12);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         html, body {
-            height: 100dvh;
-            width: 100vw;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            overflow: hidden;
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: flex;
-
-            /* Mobile Chrome ko text automatically bada karne se rokne ke liye */
+            height: 100dvh; width: 100vw; background-color: var(--bg-main); color: var(--text-main);
+            overflow: hidden; position: fixed; top: 0; left: 0; display: flex;
             -webkit-text-size-adjust: none !important;
-            text-size-adjust: none !important;
         }
-
-        /* --- Sidebar (Side Menu) --- */
         .sidebar {
-            width: 260px;
-            min-width: 260px;
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            z-index: 100;
+            width: 260px; min-width: 260px; background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border); display: flex; flex-direction: column;
+            transition: all 0.3s ease; z-index: 100;
         }
-
-        .sidebar.collapsed {
-            margin-left: -260px;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .menu-items {
-            list-style: none;
-            padding: 15px;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-        .menu-items li {
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-            color: var(--text-main);
-        }
-
-        .menu-items li:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        /* --- Main Chat Workspace --- */
-        .main-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100dvh;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Persistent Header */
-        .app-header {
-            display: flex;
-            align-items: center;
-            padding: 16px 16px 12px 16px !important;
-            background-color: var(--bg-panel);
-            border-bottom: 1px solid var(--border);
-            gap: 15px;
-            flex-shrink: 0;
-        }
-
-        .menu-btn {
-            background: transparent;
-            border: none;
-            font-size: 18px !important;
-            width: 18px !important;
-            color: var(--primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .app-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--primary-dark);
-        }
-
-        /* --- Chat Stream Display --- */
-        .chat-display {
-            flex-grow: 1;
-            min-height: 0;
-            padding: 20px;
-            padding-bottom: 120px; /* Space protected for bottom input bar */
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        /* ─── 🌟 ULTRA-SLEEK CHHOTA TEXT CONFIGURATION 🌟 ─── */
-        .welcome-container {
-            text-align: center;
-            margin: auto !important;
-            width: 260px !important;
-            max-width: 260px !important;
-            padding: 0px !important;
-        }
-
-        .welcome-container h1 {
-            color: var(--primary) !important;
-            font-size: 18px !important; /* Perfect small dimensions */
-            font-weight: 700 !important;
-            margin-bottom: 6px !important;
-            letter-spacing: -0.3px !important;
-        }
-
-        .welcome-container p {
-            color: var(--text-muted) !important;
-            font-size: 12px !important; /* Tiny premium looking subtitle text */
-            line-height: 1.4 !important;
-        }
-
-        /* Chat Bubbles */
-        .message {
-            max-width: 75%;
-            padding: 14px 18px;
-            border-radius: 18px;
-            font-size: 1rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 18px 18px 0 18px;
-            box-shadow: 0 4px 10px var(--shadow);
-        }
-
-        .message.assistant {
-            align-self: flex-start;
-            background-color: var(--bg-panel);
-            color: var(--text-main);
-            border-radius: 18px 18px 18px 0;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-
-        /* ─── 🌟 FIXED INPUT BOX & RIGHT ICONS ALIGNMENT 🌟 ─── */
-        .input-area-wrapper {
-            position: absolute !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            padding: 12px 16px !important;
-            padding-bottom: 24px !important; /* Screen floor margin */
-            background-color: var(--bg-main) !important;
-            z-index: 999 !important;
-        }
-
-        .input-box-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between !important;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 6px 14px !important;
-            box-shadow: 0 4px 12px rgba(126, 34, 206, 0.05);
-            gap: 8px;
-        }
-
-        .chat-input {
-            flex-grow: 1;
-            border: none;
-            outline: none;
-            padding: 6px 4px;
-            font-size: 14px;
-            background: transparent;
-            color: var(--text-main);
-        }
-
-        /* Right Side Actions wrapper to prevent button layout overflow */
-        .input-actions-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-            padding-right: 2px;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .action-btn:hover {
-            background-color: var(--border);
-            color: var(--primary-dark);
-        }
-
-        .action-btn.send {
-            color: var(--primary) !important;
-            font-size: 1.2rem !important;
-            background-color: transparent !important;
-            width: auto;
-            height: auto;
-        }
-
-        /* --- Floating Upload Overlay Menu --- */
-        .upload-popup-menu {
-            position: absolute;
-            bottom: 85px;
-            left: 25px;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            box-shadow: 0 12px 24px var(--shadow);
-            display: none;
-            flex-direction: column;
-            width: 180px;
-            z-index: 200;
-            overflow: hidden;
-        }
-
-        .upload-popup-menu.show {
-            display: flex;
-            animation: popUp 0.2s ease;
-        }
-
-        @keyframes popUp {
-            from { opacity: 0; transform: translateY(15px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .upload-option {
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-            color: var(--text-main);
-        }
-
-        .upload-option:hover {
-            background-color: var(--bg-sidebar);
-            color: var(--primary-dark);
-        }
-
-        /* --- Responsive Screen Dynamics --- */
+        .sidebar.collapsed { margin-left: -260px; }
+        .sidebar-header { padding: 20px; font-size: 1.4rem; font-weight: 700; color: var(--primary-dark); border-bottom: 1px solid var(--border); }
+        .menu-items { list-style: none; padding: 15px; flex-grow: 1; overflow-y: auto; }
+        .menu-items li { padding: 12px 15px; margin-bottom: 8px; border-radius: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 12px; font-weight: 500; }
+        .menu-items li:hover { background-color: var(--primary); color: white; }
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; height: 100dvh; width: 100%; position: relative; overflow: hidden; }
+        .app-header { display: flex; align-items: center; padding: 16px !important; background-color: var(--bg-panel); border-bottom: 1px solid var(--border); gap: 15px; flex-shrink: 0; }
+        .menu-btn { background: transparent; border: none; font-size: 18px; color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .app-title { font-size: 18px; font-weight: 600; color: var(--primary-dark); }
+        .chat-display { flex-grow: 1; min-height: 0; padding: 20px; padding-bottom: 120px; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+        .welcome-container { text-align: center; margin: auto !important; width: 260px !important; max-width: 260px !important; }
+        .welcome-container h1 { color: var(--primary) !important; font-size: 18px !important; font-weight: 700 !important; margin-bottom: 6px !important; }
+        .welcome-container p { color: var(--text-muted) !important; font-size: 12px !important; line-height: 1.4 !important; }
+        .message { max-width: 75%; padding: 14px 18px; border-radius: 18px; font-size: 1rem; line-height: 1.5; word-wrap: break-word; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .message.user { align-self: flex-end; background-color: var(--primary); color: white; border-radius: 18px 18px 0 18px; box-shadow: 0 4px 10px var(--shadow); }
+        .message.assistant { align-self: flex-start; background-color: var(--bg-panel); color: var(--text-main); border-radius: 18px 18px 18px 0; border: 1px solid var(--border); }
+        .typing-indicator { align-self: flex-start; background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 18px 18px 18px 0; padding: 14px 18px; display: flex; gap: 5px; align-items: center; animation: fadeIn 0.3s ease; }
+        .typing-dot { width: 8px; height: 8px; border-radius: 50%; background-color: var(--primary-light); animation: bounce 1.2s infinite ease-in-out; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%,80%,100% { transform: scale(0.7); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+        .input-area-wrapper { position: absolute !important; bottom: 0; left: 0; width: 100% !important; padding: 12px 16px !important; padding-bottom: 24px !important; background-color: var(--bg-main) !important; z-index: 999; }
+        .input-box-container { display: flex; align-items: center; background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 28px; padding: 6px 14px; box-shadow: 0 4px 12px rgba(126,34,206,0.05); gap: 8px; }
+        .chat-input { flex-grow: 1; border: none; outline: none; padding: 6px 4px; font-size: 14px; background: transparent; color: var(--text-main); }
+        .input-actions-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+        .action-btn { background: none; border: none; font-size: 1.1rem; color: var(--text-muted); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+        .action-btn:hover { background-color: var(--border); color: var(--primary-dark); }
+        .action-btn.send { color: var(--primary) !important; font-size: 1.2rem !important; background: transparent !important; width: auto; height: auto; }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .upload-popup-menu { position: absolute; bottom: 85px; left: 25px; background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 12px 24px var(--shadow); display: none; flex-direction: column; width: 180px; z-index: 200; overflow: hidden; }
+        .upload-popup-menu.show { display: flex; animation: popUp 0.2s ease; }
+        @keyframes popUp { from { opacity: 0; transform: translateY(15px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .upload-option { padding: 12px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; font-weight: 500; transition: background 0.2s; }
+        .upload-option:hover { background-color: var(--bg-sidebar); color: var(--primary-dark); }
         @media (max-width: 768px) {
-            .sidebar {
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 100%;
-            }
-
-            body.sidebar-open::after {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: rgba(0,0,0,0.4);
-                z-index: 90;
-            }
+            .sidebar { position: absolute; top: 0; left: 0; height: 100%; }
+            body.sidebar-open::after { content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); z-index: 90; }
         }
-
-        /* Large Computer Monitors Reset Scaling */
         @media (min-width: 769px) {
-            .welcome-container {
-                max-width: 500px;
-                width: auto !important;
-            }
-            .welcome-container h1 {
-                font-size: 36px !important;
-                margin-bottom: 12px !important;
-            }
-            .welcome-container p {
-                font-size: 16px !important;
-            }
-            .input-area-wrapper {
-                position: relative;
-                padding: 20px !important;
-            }
-            .chat-display {
-                padding-bottom: 20px;
-            }
+            .welcome-container { max-width: 500px; width: auto !important; }
+            .welcome-container h1 { font-size: 36px !important; margin-bottom: 12px !important; }
+            .welcome-container p { font-size: 16px !important; }
+            .input-area-wrapper { position: relative; padding: 20px !important; }
+            .chat-display { padding-bottom: 20px; }
         }
     </style>
 </head>
 <body>
 
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span>✨ ChatNova AI</span>
-        </div>
+        <div class="sidebar-header">✨ ChatNova AI</div>
         <ul class="menu-items">
             <li onclick="selectMenu('Coding')">💻 Coding</li>
             <li onclick="selectMenu('Schedule')">📅 Schedule</li>
@@ -378,39 +85,68 @@
 
     <div class="main-content">
         <header class="app-header">
-            <button class="menu-btn" id="globalMenuToggle" title="Toggle Sidebar">☰</button>
+            <button class="menu-btn" id="globalMenuToggle">☰</button>
             <div class="app-title" id="dynamicTitle">ChatNova AI</div>
         </header>
-
         <div class="chat-display" id="chatDisplay">
             <div class="welcome-container" id="welcomeScreen">
                 <h1>Hi, I'm ChatNova AI</h1>
                 <p>How can I help you</p>
             </div>
         </div>
-
         <div class="input-area-wrapper">
-
             <div class="upload-popup-menu" id="uploadPopupMenu">
-                <div class="upload-option" onclick="triggerUpload('Camera')"> Camera</div>
-                <div class="upload-option" onclick="triggerUpload('Image')"> Upload Image</div>
-                <div class="upload-option" onclick="triggerUpload('File')"> File</div>
+                <div class="upload-option" onclick="triggerUpload('Camera')">📷 Camera</div>
+                <div class="upload-option" onclick="triggerUpload('Image')">🖼️ Upload Image</div>
+                <div class="upload-option" onclick="triggerUpload('File')">📁 File</div>
             </div>
-
             <div class="input-box-container">
-                <button class="action-btn" id="plusMenuBtn" title="Upload Content" type="button">➕</button>
+                <button class="action-btn" id="plusMenuBtn" type="button">➕</button>
                 <input type="text" id="chatInputField" class="chat-input" placeholder="Message ChatNova AI..." autocomplete="off">
-                
-                <!-- Right Side Actions Group to stop layout shifting -->
                 <div class="input-actions-right">
-                    <button class="action-btn" id="micBtn" title="Voice Input" type="button">🎙️</button>
-                    <button class="action-btn send" id="sendMsgBtn" title="Send Message" type="button">➤</button>
+                    <button class="action-btn" id="micBtn" type="button">🎙️</button>
+                    <button class="action-btn send" id="sendMsgBtn" type="button">➤</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        const GROQ_API_KEY = "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";
+
+        let conversationHistory = [];
+        let isLoading = false;
+
+        async function callGroqAPI(userMessage) {
+            conversationHistory.push({ role: 'user', content: userMessage });
+
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${GROQ_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'llama-3.3-70b-versatile',
+                    messages: [
+                        { role: 'system', content: 'You are ChatNova AI, a smart and friendly assistant. Be helpful, clear and concise.' },
+                        ...conversationHistory
+                    ],
+                    max_tokens: 1024,
+                    temperature: 0.7
+                })
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data?.error?.message || 'Groq API error');
+
+            const reply = data.choices?.[0]?.message?.content;
+            if (!reply) throw new Error('No response received');
+
+            conversationHistory.push({ role: 'assistant', content: reply });
+            return reply;
+        }
+
         const sidebar = document.getElementById('sidebar');
         const globalMenuToggle = document.getElementById('globalMenuToggle');
         const plusMenuBtn = document.getElementById('plusMenuBtn');
@@ -419,7 +155,52 @@
         const chatInputField = document.getElementById('chatInputField');
         const chatDisplay = document.getElementById('chatDisplay');
         const welcomeScreen = document.getElementById('welcomeScreen');
-        const micBtn = document.getElementById('micBtn');
+
+        function hideWelcome() { if (welcomeScreen) welcomeScreen.style.display = 'none'; }
+
+        function appendMessage(text, sender) {
+            const div = document.createElement('div');
+            div.classList.add('message', sender);
+            div.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            chatDisplay.appendChild(div);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        function showTyping() {
+            const el = document.createElement('div');
+            el.className = 'typing-indicator'; el.id = 'typingIndicator';
+            el.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            chatDisplay.appendChild(el);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        function removeTyping() { const el = document.getElementById('typingIndicator'); if (el) el.remove(); }
+
+        async function executeUserSend() {
+            if (isLoading) return;
+            const text = chatInputField.value.trim();
+            if (!text) return;
+
+            hideWelcome();
+            appendMessage(text, 'user');
+            chatInputField.value = '';
+            isLoading = true;
+            sendMsgBtn.disabled = true;
+            showTyping();
+
+            try {
+                const reply = await callGroqAPI(text);
+                removeTyping();
+                appendMessage(reply, 'assistant');
+            } catch (err) {
+                removeTyping();
+                appendMessage(`⚠️ Error: ${err.message}`, 'assistant');
+            } finally {
+                isLoading = false;
+                sendMsgBtn.disabled = false;
+                chatInputField.focus();
+            }
+        }
 
         globalMenuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -428,89 +209,29 @@
         });
 
         document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !globalMenuToggle.contains(e.target)) {
-                    sidebar.classList.add('collapsed');
-                    document.body.classList.remove('sidebar-open');
-                }
+            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !globalMenuToggle.contains(e.target)) {
+                sidebar.classList.add('collapsed');
+                document.body.classList.remove('sidebar-open');
             }
-        });
-
-        plusMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            uploadPopupMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', (e) => {
             if (!uploadPopupMenu.contains(e.target) && !plusMenuBtn.contains(e.target)) {
                 uploadPopupMenu.classList.remove('show');
             }
         });
 
-        function triggerUpload(type) {
-            uploadPopupMenu.classList.remove('show');
-            hideWelcome();
-            appendMessage(`System Action: Activated ${type} pipeline.`, 'assistant');
-        }
+        plusMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); uploadPopupMenu.classList.toggle('show'); });
+
+        function triggerUpload(type) { uploadPopupMenu.classList.remove('show'); hideWelcome(); appendMessage(`📎 ${type} upload coming soon!`, 'assistant'); }
 
         function selectMenu(category) {
             document.getElementById('dynamicTitle').innerText = `ChatNova AI — ${category}`;
             hideWelcome();
-            appendMessage(`Switched contextual canvas to: **${category}** mode.`, 'assistant');
-
-            if (window.innerWidth <= 768) {
-                sidebar.classList.add('collapsed');
-                document.body.classList.remove('sidebar-open');
-            }
-        }
-
-        function executeUserSend() {
-            const queryText = chatInputField.value.trim();
-            if (!queryText) return;
-
-            hideWelcome();
-            appendMessage(queryText, 'user');
-            chatInputField.value = '';
-            simulateAIResponse(queryText);
-        }
-
-        function appendMessage(text, sender) {
-            const msgBubble = document.createElement('div');
-            msgBubble.classList.add('message', sender);
-            msgBubble.innerHTML = text;
-            chatDisplay.appendChild(msgBubble);
-            chatDisplay.scrollTop = chatDisplay.scrollHeight;
-        }
-
-        function hideWelcome() {
-            if (welcomeScreen) {
-                welcomeScreen.style.display = 'none';
-            }
-        }
-
-        function simulateAIResponse(userPrompt) {
-            setTimeout(() => {
-                let reply = "I process prompts universally. Tell me how to configure your current stack!";
-                if (userPrompt.toLowerCase().includes('hello') || userPrompt.toLowerCase().includes('hi')) {
-                    reply = "Hello! ChatNova AI online. Ready to build software, organize calendars, or parse intelligence tracks.";
-                } else {
-                    reply = `I am processing your text request: "<em>${userPrompt}</em>". Custom workspace triggers are online.`;
-                }
-                appendMessage(reply, 'assistant');
-            }, 750);
+            appendMessage(`Switched to <strong>${category}</strong> mode. How can I help?`, 'assistant');
+            if (window.innerWidth <= 768) { sidebar.classList.add('collapsed'); document.body.classList.remove('sidebar-open'); }
         }
 
         sendMsgBtn.addEventListener('click', executeUserSend);
-        chatInputField.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                executeUserSend();
-            }
-        });
-
-        micBtn.addEventListener('click', () => {
-            hideWelcome();
-            appendMessage("<em>Listening for audio stream input...</em>", 'assistant');
-        });
+        chatInputField.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); executeUserSend(); } });
+        document.getElementById('micBtn').addEventListener('click', () => { hideWelcome(); appendMessage('<em>🎙️ Voice input coming soon!</em>', 'assistant'); });
     </script>
 </body>
 </html>
