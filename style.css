@@ -29,13 +29,10 @@ html, body {
     top: 0;
     left: 0;
     display: flex;
-
-    /* Mobile Chrome ko layout automatically bada karne se rokhne ke liye */
     -webkit-text-size-adjust: none !important;
     text-size-adjust: none !important;
 }
 
-/* --- Sidebar --- */
 .sidebar {
     width: 260px;
     min-width: 260px;
@@ -82,12 +79,12 @@ html, body {
     color: var(--text-main);
 }
 
-.menu-items li:hover {
+.menu-items li:hover,
+.menu-items li:focus-visible {
     background-color: var(--primary);
     color: white;
 }
 
-/* --- Main Framework Area --- */
 .main-content {
     flex-grow: 1;
     display: flex;
@@ -98,7 +95,6 @@ html, body {
     overflow: hidden;
 }
 
-/* Header Config */
 .app-header {
     display: flex;
     align-items: center;
@@ -127,12 +123,11 @@ html, body {
     color: var(--primary-dark);
 }
 
-/* Chat Output Stream View */
 .chat-display {
     flex-grow: 1;
     min-height: 0;
     padding: 20px;
-    padding-bottom: 120px; /* input bar ke liye block safe space */
+    padding-bottom: 120px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -140,7 +135,6 @@ html, body {
     gap: 20px;
 }
 
-/* ─── 🌟 CHHOTA TEXT LOOK (MOBILE-FIRST) 🌟 ─── */
 .welcome-container {
     text-align: center;
     margin: auto !important;
@@ -151,7 +145,7 @@ html, body {
 
 .welcome-container h1 {
     color: var(--primary) !important;
-    font-size: 18px !important; /* Elegant modern small sizing */
+    font-size: 18px !important;
     font-weight: 700 !important;
     margin-bottom: 6px !important;
     letter-spacing: -0.3px !important;
@@ -159,11 +153,10 @@ html, body {
 
 .welcome-container p {
     color: var(--text-muted) !important;
-    font-size: 12px !important; /* Premium clean small subtitle */
+    font-size: 12px !important;
     line-height: 1.4 !important;
 }
 
-/* Messages Component Setup */
 .message {
     max-width: 75%;
     padding: 14px 18px;
@@ -196,14 +189,41 @@ html, body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 }
 
-/* ─── 🌟 SEND BUTTON & INPUT BOX CENTER LOGIC (FIXED) 🌟 ─── */
+.typing-indicator {
+    align-self: flex-start;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 18px 18px 18px 0;
+    padding: 14px 18px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
 .input-area-wrapper {
     position: absolute !important;
     bottom: 0 !important;
     left: 0 !important;
     width: 100% !important;
     padding: 12px 16px !important;
-    padding-bottom: 24px !important; /* Screen floor gap */
+    padding-bottom: 24px !important;
     background-color: var(--bg-main) !important;
     z-index: 999 !important;
 }
@@ -211,11 +231,11 @@ html, body {
 .input-box-container {
     display: flex;
     align-items: center;
-    justify-content: space-between !important; /* Elements perfectly spread inside bar */
+    justify-content: space-between !important;
     background-color: var(--bg-panel);
     border: 1px solid var(--border);
     border-radius: 28px;
-    padding: 6px 14px !important; /* Side margin protection */
+    padding: 6px 14px !important;
     box-shadow: 0 4px 12px rgba(126, 34, 206, 0.05);
     gap: 8px;
 }
@@ -230,7 +250,6 @@ html, body {
     color: var(--text-main);
 }
 
-/* Right-side aligned buttons container (Mic + Send centered properly) */
 .input-actions-right {
     display: flex;
     align-items: center;
@@ -268,7 +287,11 @@ html, body {
     height: auto;
 }
 
-/* --- Upload Overlay Menu --- */
+.action-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .upload-popup-menu {
     position: absolute;
     bottom: 85px;
@@ -305,12 +328,18 @@ html, body {
     color: var(--text-main);
 }
 
-.upload-option:hover {
+.upload-option:hover,
+.upload-option:focus-visible {
     background-color: var(--bg-sidebar);
     color: var(--primary-dark);
 }
 
-/* --- Responsive Layout Configurations --- */
+button:focus-visible,
+.menu-items li:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
 @media (max-width: 768px) {
     .sidebar {
         position: absolute;
@@ -331,7 +360,6 @@ html, body {
     }
 }
 
-/* Computers / Desktop Screen Override scaling rules */
 @media (min-width: 769px) {
     .welcome-container {
         max-width: 500px;
@@ -350,5 +378,12 @@ html, body {
     }
     .chat-display {
         padding-bottom: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
     }
 }
