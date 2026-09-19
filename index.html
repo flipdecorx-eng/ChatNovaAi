@@ -1,224 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ChatNova AI</title>
-<link rel="icon" href="data:,">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ChatNova AI</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="app" id="app">
-  <div class="sidebar-scrim" id="scrim"></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">✨ ChatNova AI</div>
+        <ul class="menu-items">
+            <li data-category="Coding">💻 Coding</li>
+            <li data-category="Schedule">📅 Schedule</li>
+            <li data-category="AI Learning">🧠 AI Learning</li>
+            <li data-category="Library">📚 Library</li>
+            <li data-category="Projects">📁 Projects</li>
+        </ul>
+    </aside>
 
-  <!-- ============ SIDEBAR ============ -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="url(#g1)" stroke-width="1.4"/><circle cx="12" cy="12" r="3" fill="url(#g1)"/><defs><linearGradient id="g1" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#c79a52"/><stop offset="1" stop-color="#8a6427"/></linearGradient></defs></svg></span>
-      <div class="brand">ChatNova AI</div>
-    </div>
-
-    <button class="new-chat-btn" id="newChatBtn">
-      <span class="plus-icon">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-      </span>
-      New chat
-    </button>
-
-    <nav class="nav-group">
-      <button class="nav-item" data-nav="library"><span class="ico">📚</span>Library</button>
-      <button class="nav-item" data-nav="projects"><span class="ico">📁</span>Projects</button>
-      <button class="nav-item" data-nav="schedule"><span class="ico">📅</span>Schedule</button>
-      <button class="nav-item" data-nav="apps"><span class="ico">🧩</span>Apps</button>
-      <button class="nav-item" data-nav="learn"><span class="ico">💻</span>Learn Coding</button>
-    </nav>
-
-    <div class="sidebar-divider"></div>
-    <div class="history-label">Recent chats</div>
-    <div class="chat-history" id="chatHistoryList"></div>
-
-    <div class="sidebar-footer">
-      <button class="user-chip" id="userChipBtn">
-        <span class="user-avatar" id="userAvatar">G</span>
-        <span style="min-width:0;">
-          <div class="u-name" id="userName">Guest</div>
-          <div class="u-sub" id="userSub">Sign in to save history</div>
-        </span>
-      </button>
-      <button class="icon-btn" id="settingsBtn" title="AI connection">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.51.19 1.51.42 1.51 1z"/></svg>
-      </button>
-    </div>
-  </aside>
-
-  <!-- ============ MAIN ============ -->
-  <main class="main">
-    <div class="topbar">
-      <div class="topbar-left">
-        <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-        </button>
-        <div class="model-pill" id="modelPill">✨ Gemini</div>
-      </div>
-    </div>
-
-    <!-- ---- Chat view ---- -->
-    <section class="view active" id="view-chat">
-      <div class="chat-scroll" id="chatScroll">
-        <div class="empty-state" id="emptyState">
-          <span class="mark empty-mark"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="url(#g2)" stroke-width="1.2"/><circle cx="12" cy="12" r="3" fill="url(#g2)"/><defs><linearGradient id="g2" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#c79a52"/><stop offset="1" stop-color="#8a6427"/></linearGradient></defs></svg></span>
-          <h1>Hi, I'm ChatNova AI</h1>
-          <p>Ask me anything, upload a photo, or create an image.</p>
-          <div class="suggestion-grid">
-            <button class="suggestion-card" data-prompt="Explain quantum computing like I'm 12"><b>Explain simply</b>quantum computing, in plain English</button>
-            <button class="suggestion-card" data-prompt="Write a short, warm birthday message for a friend"><b>Write for me</b>a short birthday message</button>
-            <button class="suggestion-card" data-prompt="Give me a 3-day itinerary for Tokyo"><b>Plan a trip</b>3 days in Tokyo</button>
-            <button class="suggestion-card" data-prompt="Debug this: why would a React useEffect run twice?"><b>Help me code</b>why does useEffect run twice?</button>
-          </div>
-        </div>
-        <div id="messagesContainer"></div>
-      </div>
-
-      <div class="composer-wrap">
-        <div style="width:100%;max-width:760px;">
-          <div class="composer" id="composer">
-            <div class="composer-attachments" id="composerAttachments"></div>
-            <div class="composer-row">
-              <button class="tool-btn" id="uploadImgBtn" title="Upload image">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-              </button>
-              <button class="tool-btn create-img" id="createImgBtn" title="Create image">🎨</button>
-              <input type="file" id="fileInput" accept="image/*" multiple hidden>
-              <textarea id="messageInput" rows="1" placeholder="Message ChatNova AI…"></textarea>
-              <button class="send-btn" id="sendBtn" disabled>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-              </button>
+    <div class="main-content">
+        <header class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" id="globalMenuToggle" type="button">☰</button>
+                <div class="app-title" id="dynamicTitle">ChatNova AI</div>
             </div>
-          </div>
-          <div class="composer-hint">ChatNova AI can make mistakes. Consider checking important information.</div>
-        </div>
-      </div>
-    </section>
+            <button class="theme-toggle-btn" id="themeToggleBtn" type="button" title="Toggle dark mode">🌙</button>
+        </header>
 
-    <!-- ---- Image studio view ---- -->
-    <section class="view" id="view-studio">
-      <div class="studio-wrap">
-        <div class="studio-inner">
-          <div class="studio-header">
-            <h1>Create an image</h1>
-            <p>Describe what you want to see. Powered by your connected Gemini API key.</p>
-          </div>
-          <form class="studio-form" id="studioForm">
-            <input type="text" id="studioPrompt" placeholder="A watercolor fox reading a book under a maple tree…" required>
-            <button type="submit" class="btn-primary" id="studioGenBtn">Generate</button>
-          </form>
-          <div class="image-grid" id="imageGrid">
-            <div class="image-card placeholder" style="grid-column:1/-1; aspect-ratio:auto; padding:40px 20px;">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-              <span>Your created images will appear here</span>
+        <div class="chat-display" id="chatDisplay">
+            <div class="welcome-container" id="welcomeScreen">
+                <h1>Hi, I'm ChatNova AI</h1>
+                <p>How can I help you</p>
             </div>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ---- Library view ---- -->
-    <section class="view" id="view-library">
-      <div class="library-wrap">
-        <div class="library-inner">
-          <h1>Library</h1>
-          <p>Every saved conversation, in one place.</p>
-          <div class="library-list" id="libraryList"></div>
+        <div class="input-area-wrapper">
+            <div class="upload-popup-menu" id="uploadPopupMenu">
+                <div class="upload-option" data-upload="Camera">📷 Camera</div>
+                <div class="upload-option" data-upload="Image">🖼️ Upload Image</div>
+                <div class="upload-option" data-upload="File">📁 File</div>
+            </div>
+            <div class="input-box-container">
+                <button class="action-btn" id="plusMenuBtn" type="button">➕</button>
+                <input type="text" id="chatInputField" class="chat-input" placeholder="Message ChatNova AI..." autocomplete="off">
+                <div class="input-actions-right">
+                    <button class="action-btn" id="micBtn" type="button">🎙️</button>
+                    <button class="action-btn send" id="sendMsgBtn" type="button">➤</button>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-
-    <!-- ---- Pricing view ---- -->
-    <section class="view" id="view-pricing">
-      <div class="pricing-wrap">
-        <div class="pricing-inner">
-          <h1>Plans that grow with you</h1>
-          <p>Start free. Upgrade when Nova becomes part of your daily flow.</p>
-          <div class="billing-toggle">
-            <button class="active" data-period="monthly">Monthly</button>
-            <button data-period="yearly">Yearly <span class="save-tag">Save 20%</span></button>
-          </div>
-          <div class="plans-grid" id="plansGrid"></div>
-          <p class="pricing-note">Prices shown in USD. This is a demo pricing page — connect a payment provider such as Stripe on your backend to accept real payments.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-</div>
-
-<!-- ============ AUTH GATE / MODAL ============ -->
-<div class="overlay" id="authOverlay">
-  <div class="modal">
-    <button class="modal-close" id="authCloseBtn" data-close>&times;</button>
-    <div class="auth-tabs">
-      <button class="active" data-tab="signup">Sign up</button>
-      <button data-tab="login">Log in</button>
     </div>
-    <div class="gate-banner" id="gateBanner">
-      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="url(#g3)" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="url(#g3)"/><defs><linearGradient id="g3" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#c79a52"/><stop offset="1" stop-color="#8a6427"/></linearGradient></defs></svg></span>
-      <span>Create an account to start chatting — it's how your conversations get saved.</span>
-    </div>
-    <div class="demo-banner" id="demoBanner">ℹ️ Demo account — stored only in this browser. Add a real backend (Firebase Auth, Supabase, etc.) for production accounts.</div>
-    <h2 id="authTitle">Create your account</h2>
-    <p class="modal-sub" id="authSub">Sign up to start chatting and save your history.</p>
-    <form id="authForm">
-      <div class="field" id="nameField">
-        <label>Name</label>
-        <input type="text" id="authName" placeholder="Ada Lovelace">
-      </div>
-      <div class="field">
-        <label>Email</label>
-        <input type="email" id="authEmail" placeholder="you@example.com" required>
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <input type="password" id="authPassword" placeholder="••••••••" required minlength="4">
-      </div>
-      <div class="modal-actions">
-        <button type="submit" class="btn-primary" id="authSubmitBtn">Sign up</button>
-      </div>
-    </form>
-  </div>
-</div>
 
-<div class="overlay" id="settingsOverlay">
-  <div class="modal">
-    <button class="modal-close" data-close>&times;</button>
-    <h2>Connect Gemini</h2>
-    <p class="modal-sub">Paste your Google AI Studio API key to get real replies. Stored only in this browser's localStorage.</p>
-    <form id="settingsForm">
-      <div class="field">
-        <label>Gemini API key</label>
-        <input type="password" id="settingsKey" placeholder="AIza...">
-        <div class="hint">⚠️ Calling the Gemini API directly from a browser exposes this key to anyone using this browser. For a public site, proxy requests through a small backend instead.</div>
-      </div>
-      <div class="field">
-        <label>Chat model</label>
-        <input type="text" id="settingsChatModel" placeholder="gemini-2.0-flash">
-      </div>
-      <div class="field">
-        <label>Image model <span style="font-weight:400;color:var(--text-faint);">(experimental)</span></label>
-        <input type="text" id="settingsImageModel" placeholder="gemini-2.0-flash-preview-image-generation">
-        <div class="hint">Google's image-generation preview models change name/availability periodically — check Google AI Studio for the current one if generation fails.</div>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" data-close>Cancel</button>
-        <button type="submit" class="btn-primary">Save</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="toast-stack" id="toastStack"></div>
-
-<script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
